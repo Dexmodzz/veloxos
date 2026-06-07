@@ -96,3 +96,6 @@ libva-utils
 EOF
 
 echo "protected-packages.txt ready ($(grep -c '^[^#]' "$PROTECTED_FILE") packages)."
+
+# Restore VeloxOS identity in os-release (was patched to fedora for dnf5 copr)
+sed -i 's/^ID=fedora$/ID=veloxos/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
