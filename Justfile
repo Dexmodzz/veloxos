@@ -1,11 +1,12 @@
 image_name     := "veloxos"
 image_registry := "ghcr.io/dexmodzz"
 default_tag    := "latest"
+default_image  := "ghcr.io/dexmodzz/veloxos"
 
 # Build an ISO locally from an OCI image
 # Usage: just build-iso [image] [tag]
 # Example: just build-iso ghcr.io/dexmodzz/veloxos latest
-build-iso image=image_registry+"/"+image_name tag=default_tag:
+build-iso image=default_image tag=default_tag:
     #!/usr/bin/env bash
     set -euo pipefail
     mkdir -p output
