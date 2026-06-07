@@ -19,13 +19,19 @@ touch /var/log/akmods/akmods.log
 KVER="$(dnf5 repoquery --installed --qf '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-cachyos)"
 akmods --force --kernels "$KVER"
 
+# Disable DKMS post-install systemd hook — systemd is not running in containers
+echo 'POST_INSTALL=""' >> /etc/dkms/framework.conf
+
 # Build all installed DKMS modules for the installed kernel (if any)
 while IFS=' ' read -r pkg_name pkg_ver; do
     module="${pkg_name#dkms-}"
     echo "Building DKMS module: ${module} ${pkg_ver}"
 
-    dkms install -m "${module}" -v "${pkg_ver}" -k "${QUALIFIED_KERNEL}" --force || \
-        echo "Warning: DKMS post-install hook failed for ${module} ${pkg_ver}, continuing."
+    dkms install -m "${module}" -v "${pkg_ver}" -k "${QUALIFIED_KERNEL}" --force || {
+        echo "DKMS build failed for ${module} ${pkg_ver} — make.log:"
+        cat "/var/lib/dkms/${module}/${pkg_ver}/build/make.log" 2>/dev/null || true
+        exit 1
+    }
 done < <(rpm -qa --queryformat '%{NAME} %{VERSION}\n' | grep '^dkms-')
 
 #Build initramfs
