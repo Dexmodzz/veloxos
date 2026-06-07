@@ -121,7 +121,25 @@ mpv \
 cosmic-store
 
 # Remove unwanted packages
-dnf5 -y remove firefox*
+dnf5 -y remove \
+firefox* \
+gdm \
+gnome-shell \
+gnome-shell-common \
+gnome-shell-extension-common \
+gnome-shell-extension-user-theme \
+gnome-session \
+gnome-session-wayland-session \
+gnome-control-center \
+gnome-control-center-filesystem \
+gnome-color-manager \
+gnome-remote-desktop \
+gnome-tour \
+pinentry-gnome3 \
+gnome-srpm-macros \
+xdg-desktop-portal-gnome
+
+dnf5 -y install xdg-desktop-portal-wlr xdg-desktop-portal-gtk
 
 # nwg-look
 dnf5 -y copr enable tofik/nwg-shell
