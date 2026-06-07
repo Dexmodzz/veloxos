@@ -97,5 +97,6 @@ EOF
 
 echo "protected-packages.txt ready ($(grep -c '^[^#]' "$PROTECTED_FILE") packages)."
 
-# Restore VeloxOS identity in os-release (was patched to fedora for dnf5 copr)
-sed -i 's/^ID=fedora$/ID=veloxos/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
+# Brand as VeloxOS — keep ID=fedora for tool compatibility (bootc-image-builder, dnf copr, etc.)
+sed -i 's/^NAME=.*/NAME=VeloxOS/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
+sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="VeloxOS"/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
