@@ -121,7 +121,7 @@ mpv \
 cosmic-store
 
 # Remove unwanted packages
-dnf5 -y remove firefox* nss
+dnf5 -y remove firefox*
 
 # nwg-look
 dnf5 -y copr enable tofik/nwg-shell
