@@ -128,6 +128,7 @@ dnf5 -y copr enable tofik/nwg-shell
 dnf5 -y install nwg-look adw-gtk3-theme yaru-theme --skip-unavailable
 
 # Brave browser
+mkdir -p /var/opt
 dnf5 config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 dnf5 -y install brave-browser
 
