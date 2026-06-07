@@ -10,7 +10,7 @@ sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 sed -i 's/^ID=.*/ID=fedora/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
 
 # Disable DKMS post-install systemd hook globally — systemd is not running in containers
-echo 'POST_INSTALL=""' >> /etc/dkms/framework.conf
+mkdir -p /etc/dkms && echo 'POST_INSTALL=""' >> /etc/dkms/framework.conf
 
 ## Enable repos
 dnf5 -y install dnf5-plugins
