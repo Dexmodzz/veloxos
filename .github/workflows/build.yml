@@ -14,6 +14,7 @@ env:
   IMAGE_NAME: "veloxos"
   IMAGE_REGISTRY: "ghcr.io/dexmodzz"
   DEFAULT_TAG: "latest"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
