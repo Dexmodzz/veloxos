@@ -20,9 +20,6 @@ touch /var/log/akmods/akmods.log
 KVER="$(dnf5 repoquery --installed --qf '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-cachyos)"
 akmods --force --kernels "$KVER" || true
 
-# Disable DKMS post-install systemd hook — systemd is not running in containers
-echo 'POST_INSTALL=""' >> /etc/dkms/framework.conf
-
 # Build all DKMS-registered modules for the pinned kernel
 dkms autoinstall -k "${QUALIFIED_KERNEL}" || \
     echo "Warning: some DKMS modules failed to build, continuing."

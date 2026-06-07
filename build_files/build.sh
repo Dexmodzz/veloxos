@@ -9,6 +9,9 @@ sed -i '/^\[main\]/a max_parallel_downloads=10' /etc/dnf/dnf.conf
 # Patch os-release so dnf5 copr uses fedora-${FEDORA_VERSION}-x86_64 chroots
 sed -i 's/^ID=.*/ID=fedora/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
 
+# Disable DKMS post-install systemd hook globally — systemd is not running in containers
+echo 'POST_INSTALL=""' >> /etc/dkms/framework.conf
+
 ## Enable repos
 dnf5 -y install dnf5-plugins
 dnf5 -y copr enable bieszczaders/kernel-cachyos fedora-${FEDORA_VERSION}-x86_64
