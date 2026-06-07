@@ -122,13 +122,13 @@ lxpolkit \
 parallel \
 just \
 seahorse \
-nautilus \
+thunar \
 mpv \
 cosmic-store
 
 # Remove unwanted packages
 dnf5 -y remove \
-firefox* \
+firefox* nss\
 gdm \
 gnome-shell \
 gnome-shell-common \
