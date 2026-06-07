@@ -2,6 +2,7 @@ export image_name     := "veloxos"
 export image_registry := "ghcr.io/dexmodzz"
 export default_tag    := env("DEFAULT_TAG", "latest")
 export bib_image      := env("BIB_IMAGE", "ghcr.io/osbuild/bootc-image-builder:latest")
+export fedora_version := env("FEDORA_VERSION", "43")
 
 alias build-vm     := build-qcow2
 alias rebuild-vm   := rebuild-qcow2
@@ -157,6 +158,7 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
       -v /var/lib/containers/storage:/var/lib/containers/storage \
       "${bib_image}" \
       --type "${type}" \
+      --distro "fedora-${fedora_version}" \
       --use-librepo=True \
       --rootfs=btrfs \
       "${target_image}:${tag}"
