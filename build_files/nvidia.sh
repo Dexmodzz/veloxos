@@ -49,11 +49,5 @@ LD=ld.bfd dkms install -m nvidia -v "${NVIDIA_VER}" -k "${QUALIFIED_KERNEL}" --f
 # Services are enabled/disabled at first boot by gpu-detect.service
 # based on detected hardware — do not enable here
 
-# Generate module dependencies
-depmod "${QUALIFIED_KERNEL}"
-
-# Generate initramfs with nvidia module included so it is available at early boot
-/usr/bin/dracut --no-hostonly --kver "${QUALIFIED_KERNEL}" --reproducible --zstd -v \
-    --add ostree --add fido2 -f "/usr/lib/modules/${QUALIFIED_KERNEL}/initramfs.img"
-
-chmod 0600 /usr/lib/modules/"${QUALIFIED_KERNEL}"/initramfs.img
+# depmod and dracut are handled by drivers.sh which runs after this script
+# so all DKMS modules (nvidia + controllers) end up in one initramfs
