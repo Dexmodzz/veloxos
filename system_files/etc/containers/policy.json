@@ -6,12 +6,12 @@
   ],
   "transports": {
     "docker": {
-      "ghcr.io/rakuos": [
+      "ghcr.io/veloxos": [
         {
           "type": "insecureAcceptAnything"
         }
       ],
-      "registry.gitlab.com/rakuos/images": [
+      "registry.gitlab.com/veloxos/images": [
         {
           "type": "insecureAcceptAnything"
         }

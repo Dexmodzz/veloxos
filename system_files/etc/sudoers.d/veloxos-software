@@ -1,0 +1,22 @@
+# VeloxOS Software Center — passwordless sudo for wheel group
+# File: /etc/sudoers.d/veloxos
+
+# Initial setup — allow veloxos-setup user to trigger first-boot package install
+veloxos-setup ALL=(ALL) NOPASSWD: /usr/libexec/veloxos/veloxos-overlay-sync --initial-install
+
+# Package management
+%wheel ALL=(ALL) NOPASSWD: /usr/libexec/veloxos/veloxos-install
+%wheel ALL=(ALL) NOPASSWD: /usr/libexec/veloxos/veloxos-remove
+%wheel ALL=(ALL) NOPASSWD: /usr/libexec/veloxos/veloxos-update
+
+# Flatpak system-wide operations
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/flatpak install --bundle --noninteractive -y *
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/flatpak install --from --noninteractive -y *
+
+# bootc image operations
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/bootc status --json
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/bootc upgrade --check
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/bootc upgrade
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/bootc switch *
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/bootc rollback
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/bootc install *

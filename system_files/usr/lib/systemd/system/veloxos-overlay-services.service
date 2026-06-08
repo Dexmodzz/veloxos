@@ -1,0 +1,16 @@
+[Unit]
+Description=VeloxOS Overlay Service Activation
+Documentation=https://veloxos.org
+After=display-manager.service veloxos-overlay-mount.service
+#Requires=veloxos-overlay-mount.service
+ConditionPathExists=/var/lib/veloxos/packages.list
+
+[Service]
+Type=oneshot
+RemainAfterExit=no
+ExecStart=/usr/libexec/veloxos/veloxos-overlay-services
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical.target

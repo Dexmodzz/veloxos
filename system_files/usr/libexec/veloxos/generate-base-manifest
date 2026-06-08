@@ -2,9 +2,9 @@
 # generate-base-manifest — Generate list of all files in /usr and base package list
 # at image build time. Run at end of Containerfile via RUN command.
 #
-# excludepkgs in dnf.conf is built from /usr/share/rakuos/protected-packages.txt
+# excludepkgs in dnf.conf is built from /usr/share/veloxos/protected-packages.txt
 # which is the union of:
-#   - base image protected-packages.txt  (shipped by rakuos-base)
+#   - base image protected-packages.txt  (shipped by veloxos-base)
 #   - DE-specific packages appended by each DE's post-build-overlay.sh
 #
 # Only explicitly installed packages belong in that file — not all their deps.
@@ -12,7 +12,7 @@
 # DE shell, kernel, and other core components.
 set -euo pipefail
 
-MANIFEST_DIR="/usr/share/rakuos"
+MANIFEST_DIR="/usr/share/veloxos"
 MANIFEST_FILE="$MANIFEST_DIR/base-manifest.txt"
 BASE_PACKAGES_FILE="$MANIFEST_DIR/base-packages.txt"
 PROTECTED_FILE="$MANIFEST_DIR/protected-packages.txt"
@@ -36,7 +36,7 @@ mapfile -t PROTECTED_PKGS < <(
     | grep -v '^@'
 )
 
-echo "Generating RakuOS base package list (all installed, for reference)..."
+echo "Generating VeloxOS base package list (all installed, for reference)..."
 rpm --dbpath /usr/lib/sysimage/rpm -qa --qf '%{NAME}.%{ARCH}\n' \
   | sort -u > "$BASE_PACKAGES_FILE"
 PKG_TOTAL=$(wc -l < "$BASE_PACKAGES_FILE")
@@ -49,7 +49,7 @@ mapfile -t PYTHON_PKGS < <(
 )
 echo "Found ${#PYTHON_PKGS[@]} python packages to add to manifest and excludepkgs."
 
-echo "Generating RakuOS base file manifest from ${#PROTECTED_PKGS[@]} protected + ${#PYTHON_PKGS[@]} python packages..."
+echo "Generating VeloxOS base file manifest from ${#PROTECTED_PKGS[@]} protected + ${#PYTHON_PKGS[@]} python packages..."
 
 # Build manifest from files owned by protected packages and all python packages.
 # Silently skip packages not installed (e.g. a DE package not present in base).
@@ -62,7 +62,7 @@ echo "Generating RakuOS base file manifest from ${#PROTECTED_PKGS[@]} protected 
 TOTAL=$(wc -l < "$MANIFEST_FILE")
 echo "Manifest generated: $TOTAL files → $MANIFEST_FILE"
 
-echo "Writing RakuOS dnf config..."
+echo "Writing VeloxOS dnf config..."
 # Merge protected packages with all python* packages from base-packages.txt.
 # Python packages are excluded to prevent the overlay from partially overriding
 # Python libs and causing import errors (e.g. broken encodings module).
@@ -72,6 +72,6 @@ EXCLUDE_LIST=$(
 )
 printf '[main]\nkeepcache=True\nexcludepkgs=%s\n' "$EXCLUDE_LIST" > "$RAKUOS_DNF_CONF"
 TOTAL_EXCLUDED=$(printf '%s\n' "$EXCLUDE_LIST" | tr ',' '\n' | grep -c .)
-echo "RakuOS dnf config written → $RAKUOS_DNF_CONF ($TOTAL_EXCLUDED packages excluded, includes python* from base)"
+echo "VeloxOS dnf config written → $RAKUOS_DNF_CONF ($TOTAL_EXCLUDED packages excluded, includes python* from base)"
 
-echo "RakuOS base manifest generation complete."
+echo "VeloxOS base manifest generation complete."

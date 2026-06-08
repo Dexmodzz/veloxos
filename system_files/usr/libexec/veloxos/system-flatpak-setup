@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RAKUOS_SHARE=/usr/share/rakuos
-FIX_DIR=/usr/libexec/rakuos/flatpak-fixes
+RAKUOS_SHARE=/usr/share/veloxos
+FIX_DIR=/usr/libexec/veloxos/flatpak-fixes
 
 MODE="${1:-boot}"
 APPID="${2:-}"
 ACTION="${3:-unknown}"
 
-MARKER_FILE="/var/lib/rakuos/flathub_fixed"
+MARKER_FILE="/var/lib/veloxos/flathub_fixed"
 
-mkdir -p /var/lib/rakuos
+mkdir -p /var/lib/veloxos
 
 ########################################
 # Normalize / validate mode

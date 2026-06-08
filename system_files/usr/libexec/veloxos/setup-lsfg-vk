@@ -6,7 +6,7 @@ echo "Setting up LSFG-VK (native + Flatpak support)..."
 # -------------------------------
 # Native LSFG install
 # -------------------------------
-rakuos install lsfg-vk
+veloxos install lsfg-vk
 
 # -------------------------------
 # Flatpak Vulkan layers

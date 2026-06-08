@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Setting up virtualization for RakuOS..."
+echo "Setting up virtualization for VeloxOS..."
 
-rakuos install \
+veloxos install \
     libvirt-daemon-config-network \
     libvirt-daemon-kvm \
     qemu-kvm \

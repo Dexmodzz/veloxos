@@ -1,0 +1,18 @@
+[Unit]
+Description=VeloxOS Base System Protection
+Documentation=https://veloxos.org
+After=veloxos-overlay-mount.service
+Wants=veloxos-overlay-mount.service
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/veloxos/veloxos-base-protect
+Restart=always
+RestartSec=5
+TimeoutSec=infinity
+KillMode=process
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

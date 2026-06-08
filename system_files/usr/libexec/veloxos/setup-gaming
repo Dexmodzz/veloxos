@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Setting up gaming for RakuOS..."
+echo "Setting up gaming for VeloxOS..."
 
-rakuos install \
+veloxos install \
     steam \
     lutris \
     heroic-games-launcher \

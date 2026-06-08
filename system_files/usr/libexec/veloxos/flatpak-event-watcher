@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SETUP_SCRIPT="/usr/libexec/rakuos/system-flatpak-setup"
-WRAPPER_GEN="/usr/libexec/rakuos/flatpak-wrapper-gen"
+SETUP_SCRIPT="/usr/libexec/veloxos/system-flatpak-setup"
+WRAPPER_GEN="/usr/libexec/veloxos/flatpak-wrapper-gen"
 BIN_DIR="/var/lib/flatpak/exports/bin"
 
-echo "RakuOS Flatpak event watcher started, watching $BIN_DIR"
+echo "VeloxOS Flatpak event watcher started, watching $BIN_DIR"
 
 # Ensure inotify-tools is installed
 command -v inotifywait >/dev/null 2>&1 || {
