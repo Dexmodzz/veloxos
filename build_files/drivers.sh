@@ -7,7 +7,7 @@ QUALIFIED_KERNEL=$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel
 
 # Install controller and power management drivers
 # COPRs enabled in build.sh: sentry/xone, sentry/xpadneo, ublue-os/akmods
-dnf5 install -y --setopt=tsflags=noscripts --skip-unavailable \
+dnf5 install -y --setopt=tsflags=noscripts \
     xpadneo \
     xpad-noone \
     xone \
