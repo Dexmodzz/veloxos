@@ -1,0 +1,23 @@
+#!/bin/bash
+# Runs once at first boot — detects GPU vendor and enables the right services.
+# AMD and Intel use open-source in-kernel drivers (amdgpu, i915/xe) that load
+# automatically via udev. NVIDIA needs the proprietary services enabled.
+
+set -euo pipefail
+
+MARKER=/var/lib/veloxos/gpu-detected
+mkdir -p /var/lib/veloxos
+
+if lspci | grep -qi "NVIDIA"; then
+    echo "gpu-detect: NVIDIA GPU found — enabling nvidia services"
+    systemctl enable nvidia-persistenced.service
+    systemctl enable nvidia-powerd.service
+elif lspci | grep -qi "Advanced Micro Devices\|AMD.*VGA\|Radeon"; then
+    echo "gpu-detect: AMD GPU found — amdgpu loads automatically, no extra setup needed"
+elif lspci | grep -qi "Intel.*VGA\|Intel.*Graphics\|Intel.*Display"; then
+    echo "gpu-detect: Intel GPU found — i915/xe loads automatically, no extra setup needed"
+else
+    echo "gpu-detect: GPU vendor unknown — skipping driver setup"
+fi
+
+touch "$MARKER"

@@ -66,6 +66,7 @@ dnf5 -y --setopt=tsflags=noscripts install \
 dnf5 -y swap ffmpeg ffmpeg-free --allowerasing
 
 dnf5 -y install mesa-dri-drivers.i686 mesa-va-drivers.i686 mesa-vulkan-drivers.i686 mesa-libEGL.i686 mesa-libGL.i686
+dnf5 -y install intel-media-driver
 dnf5 -y upgrade --best 'mesa-*'
 
 # Determine installed kernel version
@@ -206,6 +207,7 @@ systemctl mask systemd-remount-fs.service
 
 # Enable services
 systemctl enable \
+gpu-detect.service \
 fix-dkms.service \
 flatpak-cleanup.timer \
 flatpak-repair.timer \

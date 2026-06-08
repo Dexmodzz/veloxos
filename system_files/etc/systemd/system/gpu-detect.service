@@ -1,0 +1,15 @@
+[Unit]
+Description=GPU Detection and Driver Setup
+Documentation=https://github.com/Dexmodzz/veloxos
+# Run only if the marker file does not exist (first boot or after reset)
+ConditionPathExists=!/var/lib/veloxos/gpu-detected
+After=local-fs.target
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/gpu-detect
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

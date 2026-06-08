@@ -21,6 +21,13 @@ dnf5 install -y --setopt=tsflags=noscripts \
     nvidia-persistenced \
     libva-nvidia-driver
 
+# Blacklist nouveau so nvidia driver takes over on NVIDIA hardware
+# (on AMD/Intel machines nouveau is not loaded anyway)
+cat > /usr/lib/modprobe.d/blacklist-nouveau.conf << 'EOF'
+blacklist nouveau
+options nouveau modeset=0
+EOF
+
 # Record nvidia packages for protection
 mkdir -p /usr/share/veloxos
 {
@@ -39,14 +46,13 @@ LD=ld.bfd dkms install -m nvidia -v "${NVIDIA_VER}" -k "${QUALIFIED_KERNEL}" --f
     exit 1
 }
 
-# Enable NVIDIA power management services
-systemctl enable nvidia-powerd.service \
-    nvidia-persistenced.service
+# Services are enabled/disabled at first boot by gpu-detect.service
+# based on detected hardware — do not enable here
 
 # Generate module dependencies
 depmod "${QUALIFIED_KERNEL}"
 
-# Generate initramfs with nvidia module included
+# Generate initramfs with nvidia module included so it is available at early boot
 /usr/bin/dracut --no-hostonly --kver "${QUALIFIED_KERNEL}" --reproducible --zstd -v \
     --add ostree --add fido2 -f "/usr/lib/modules/${QUALIFIED_KERNEL}/initramfs.img"
 
