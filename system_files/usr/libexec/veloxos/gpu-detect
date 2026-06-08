@@ -8,16 +8,23 @@ set -euo pipefail
 MARKER=/var/lib/veloxos/gpu-detected
 mkdir -p /var/lib/veloxos
 
-if lspci | grep -qi "NVIDIA"; then
+LSPCI=$(lspci)
+
+# NVIDIA — check independently so dual GPU laptops (AMD iGPU + NVIDIA dGPU) work correctly
+if echo "$LSPCI" | grep -qi "NVIDIA"; then
     echo "gpu-detect: NVIDIA GPU found — enabling nvidia services"
     systemctl enable nvidia-persistenced.service
     systemctl enable nvidia-powerd.service
-elif lspci | grep -qi "Advanced Micro Devices\|AMD.*VGA\|Radeon"; then
-    echo "gpu-detect: AMD GPU found — amdgpu loads automatically, no extra setup needed"
-elif lspci | grep -qi "Intel.*VGA\|Intel.*Graphics\|Intel.*Display"; then
-    echo "gpu-detect: Intel GPU found — i915/xe loads automatically, no extra setup needed"
-else
-    echo "gpu-detect: GPU vendor unknown — skipping driver setup"
+fi
+
+# AMD iGPU — amdgpu loads automatically, no extra setup needed
+if echo "$LSPCI" | grep -qi "Advanced Micro Devices\|AMD.*VGA\|Radeon"; then
+    echo "gpu-detect: AMD GPU found — amdgpu loads automatically"
+fi
+
+# Intel iGPU — i915/xe loads automatically, no extra setup needed
+if echo "$LSPCI" | grep -qi "Intel.*VGA\|Intel.*Graphics\|Intel.*Display"; then
+    echo "gpu-detect: Intel GPU found — i915/xe loads automatically"
 fi
 
 touch "$MARKER"
