@@ -115,6 +115,7 @@ libvirt \
 virt-manager \
 qemu-kvm \
 flatpak-builder \
+pciutils \
 wlr-randr \
 iotop \
 sysstat \
