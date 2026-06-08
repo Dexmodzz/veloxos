@@ -162,7 +162,7 @@ dnf5 -y install brave-browser
 dnf5 -y install niri
 
 # Bibata cursor
-curl -Lo /tmp/bibata.tar.xz https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz
+curl -fL --retry 3 --retry-delay 5 -o /tmp/bibata.tar.xz https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz
 tar -xf /tmp/bibata.tar.xz -C /usr/share/icons/
 rm /tmp/bibata.tar.xz
 
