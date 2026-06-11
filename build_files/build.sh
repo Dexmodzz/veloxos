@@ -138,14 +138,34 @@ gnome-shell-extension-common \
 gnome-shell-extension-user-theme \
 gnome-session \
 gnome-session-wayland-session \
+gnome-session-xsession \
 gnome-control-center \
 gnome-control-center-filesystem \
 gnome-color-manager \
 gnome-remote-desktop \
 gnome-tour \
+gnome-software \
 pinentry-gnome3 \
 gnome-srpm-macros \
-xdg-desktop-portal-gnome
+xdg-desktop-portal-gnome \
+nautilus \
+totem \
+eog \
+gnome-maps \
+gnome-weather \
+gnome-clocks \
+gnome-calculator \
+gnome-calendar \
+gnome-contacts \
+gnome-photos \
+gnome-text-editor \
+gnome-system-monitor \
+gnome-disk-utility \
+gnome-connections \
+loupe \
+snapshot \
+papers \
+decibels
 
 dnf5 -y install xdg-desktop-portal-wlr xdg-desktop-portal-gtk
 
