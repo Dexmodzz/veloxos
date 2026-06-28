@@ -66,7 +66,7 @@ dnf5 -y --setopt=tsflags=noscripts install \
 
 dnf5 -y swap ffmpeg ffmpeg-free --allowerasing
 
-dnf5 -y install --disablerepo=terra-mesa mesa-filesystem.i686 mesa-dri-drivers.i686 mesa-va-drivers.i686 mesa-vulkan-drivers.i686 mesa-libEGL.i686 mesa-libGL.i686
+dnf5 -y install --disablerepo=terra-mesa mesa-filesystem.i686 mesa-dri-drivers.i686 mesa-vulkan-drivers.i686 mesa-libEGL.i686 mesa-libGL.i686
 dnf5 -y install intel-media-driver
 dnf5 -y upgrade --best 'mesa-*'
 
