@@ -1,0 +1,12 @@
+[Unit]
+Description=Fix DKMS source symlinks for all installed dkms-* packages
+After=local-fs.target veloxos-overlay-mount.service
+Requires=veloxos-overlay-mount.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/fix-dkms
+ExecStartPost=/usr/bin/systemctl restart dkms.service
+
+[Install]
+WantedBy=multi-user.target

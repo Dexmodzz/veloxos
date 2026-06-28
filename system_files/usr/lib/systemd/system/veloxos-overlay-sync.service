@@ -1,0 +1,18 @@
+[Unit]
+Description=VeloxOS Overlay Sync
+Documentation=https://veloxos.org
+After=network-online.target systemd-resolved.service veloxos-overlay-mount.service plymouth-start.service
+Wants=network-online.target systemd-resolved.service plymouth-start.service
+Before=display-manager.service plymouth-quit.service plymouth-quit-wait.service
+ConditionPathExists=/var/lib/veloxos/packages.list
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/bash -c 'until nslookup mirrors.fedoraproject.org >/dev/null 2>&1; do echo "Waiting for DNS..."; sleep 2; done'
+ExecStart=/usr/libexec/veloxos/veloxos-overlay-sync
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

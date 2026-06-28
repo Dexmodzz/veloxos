@@ -1,0 +1,13 @@
+[Unit]
+Description=VeloxOS System Flatpak Setup
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/usr/libexec/veloxos/system-flatpak-setup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/system-flatpak-setup boot
+RemainAfterExit=false
+
+[Install]
+WantedBy=multi-user.target

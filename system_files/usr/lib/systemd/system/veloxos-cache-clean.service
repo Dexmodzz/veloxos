@@ -1,0 +1,11 @@
+[Unit]
+Description=VeloxOS RPM Cache Cleaner
+Documentation=https://veloxos.org
+After=veloxos-overlay-sync.service
+Wants=veloxos-overlay-sync.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/veloxos-cache-clean
+StandardOutput=journal
+StandardError=journal

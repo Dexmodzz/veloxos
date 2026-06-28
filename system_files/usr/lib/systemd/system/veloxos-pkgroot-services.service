@@ -1,0 +1,16 @@
+[Unit]
+Description=VeloxOS Package Root Service Activation
+Documentation=https://veloxos.org
+After=display-manager.service veloxos-pkgroot-sync.service
+Wants=veloxos-pkgroot-sync.service
+ConditionPathExists=/var/lib/veloxos/packages.list
+
+[Service]
+Type=oneshot
+RemainAfterExit=no
+ExecStart=/usr/libexec/veloxos/veloxos-pkgroot-services
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical.target

@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<channel name="thunar" version="1.0">
+  <property name="last-view" type="string" value="ThunarDetailsView"/>
+  <property name="last-icon-view-zoom-level" type="string" value="THUNAR_ZOOM_LEVEL_100_PERCENT"/>
+  <property name="last-window-width" type="int" value="936"/>
+  <property name="last-window-height" type="int" value="967"/>
+  <property name="last-window-maximized" type="bool" value="false"/>
+  <property name="last-renamer-dialog-width" type="int" value="936"/>
+  <property name="last-renamer-dialog-height" type="int" value="967"/>
+  <property name="last-renamer-dialog-maximized" type="bool" value="false"/>
+  <property name="last-details-view-zoom-level" type="string" value="THUNAR_ZOOM_LEVEL_75_PERCENT"/>
+  <property name="last-details-view-column-widths" type="string" value="50,50,112,106,81,312,50,50,428,50,50,78,50,147"/>
+  <property name="last-separator-position" type="int" value="170"/>
+  <property name="last-show-hidden" type="bool" value="true"/>
+  <property name="misc-single-click" type="bool" value="false"/>
+  <property name="shortcuts-icon-emblems" type="bool" value="true"/>
+  <property name="tree-icon-emblems" type="bool" value="true"/>
+  <property name="misc-symbolic-icons-in-sidepane" type="bool" value="false"/>
+  <property name="misc-image-preview-mode" type="string" value="THUNAR_IMAGE_PREVIEW_MODE_EMBEDDED"/>
+  <property name="misc-full-path-in-tab-title" type="bool" value="false"/>
+  <property name="misc-exec-shell-scripts-by-default" type="string" value="THUNAR_EXECUTE_SHELL_SCRIPT_ASK"/>
+  <property name="hidden-bookmarks" type="array">
+    <value type="string" value="computer:///"/>
+    <value type="string" value="recent:///"/>
+    <value type="string" value="file:///home/nicola/Desktop"/>
+  </property>
+</channel>

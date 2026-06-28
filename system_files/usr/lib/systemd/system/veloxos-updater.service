@@ -1,0 +1,9 @@
+[Unit]
+Description=VeloxOS Auto Updater (Topgrade)
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/veloxos-updater
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,84 @@
+{
+  "appUsageRanking": {
+    "com.system76.CosmicStore": {
+      "name": "COSMIC Store",
+      "exec": "cosmic-store %u",
+      "icon": "com.system76.CosmicStore",
+      "comment": "Application store for the COSMIC desktop",
+      "usageCount": 7,
+      "lastUsed": 1782529366690
+    },
+    "thunar": {
+      "name": "Thunar File Manager",
+      "exec": "thunar %U",
+      "icon": "org.xfce.thunar",
+      "comment": "Browse the filesystem with the file manager",
+      "usageCount": 6,
+      "lastUsed": 1782519659083
+    },
+    "nwg-look": {
+      "name": "GTK Settings",
+      "exec": "nwg-look",
+      "icon": "nwg-look",
+      "comment": "Customizes GTK3 look and feel settings",
+      "usageCount": 5,
+      "lastUsed": 1782519666394
+    },
+    "panel-preferences": {
+      "name": "Panel",
+      "exec": "xfce4-panel --preferences",
+      "icon": "org.xfce.panel",
+      "comment": "Customize the panel",
+      "usageCount": 3,
+      "lastUsed": 1782161661588
+    },
+    "thunar-settings": {
+      "name": "Thunar Preferences",
+      "exec": "thunar-settings",
+      "icon": "org.xfce.thunar",
+      "comment": "Configure the Thunar file manager",
+      "usageCount": 3,
+      "lastUsed": 1782161697189
+    },
+    "thunar-bulk-rename": {
+      "name": "Bulk Rename",
+      "exec": "thunar --bulk-rename %F",
+      "icon": "org.xfce.thunar",
+      "comment": "Rename Multiple Files",
+      "usageCount": 2,
+      "lastUsed": 1782242004327
+    },
+    "nvidia-settings": {
+      "name": "NVIDIA X Server Settings",
+      "exec": "nvidia-settings",
+      "icon": "nvidia-settings",
+      "comment": "Configure NVIDIA X Server Settings",
+      "usageCount": 1,
+      "lastUsed": 1782245484187
+    },
+    "com.vscodium.codium": {
+      "name": "VSCodium",
+      "exec": "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=com.vscodium.codium --file-forwarding com.vscodium.codium @@ %F @@",
+      "icon": "com.vscodium.codium",
+      "comment": "Code Editing. Redefined.",
+      "usageCount": 1,
+      "lastUsed": 1782417044926
+    },
+    "brave-browser": {
+      "name": "Brave Web Browser",
+      "exec": "/usr/bin/brave-browser-stable %U",
+      "icon": "brave-browser",
+      "comment": "Access the Internet",
+      "usageCount": 5,
+      "lastUsed": 1782520095258
+    },
+    "com.brave.Browser": {
+      "name": "Brave",
+      "exec": "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=brave --file-forwarding com.brave.Browser @@u %U @@",
+      "icon": "com.brave.Browser",
+      "comment": "Access the Internet",
+      "usageCount": 3,
+      "lastUsed": 1782524396116
+    }
+  }
+}
