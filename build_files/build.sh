@@ -101,6 +101,7 @@ mokutil \
 lm_sensors \
 sqlite3 \
 openssl \
+xdg-user-dirs \
 libnotify \
 inotify-tools \
 podman-compose \
@@ -210,6 +211,10 @@ systemctl disable flatpak-add-fedora-repos.service
 systemctl mask akmods-keygen@akmods-keygen.service
 systemctl mask systemd-remount-fs.service
 
+# Enable user service for first-run setup (creates XDG dirs, etc.)
+mkdir -p /usr/lib/systemd/user/default.target.wants
+ln -sf /usr/lib/systemd/user/veloxos-user.service /usr/lib/systemd/user/default.target.wants/veloxos-user.service
+
 # Enable services
 systemctl enable \
 gpu-detect.service \
@@ -256,9 +261,6 @@ gnome-contacts \
 gnome-photos \
 gnome-text-editor \
 gnome-system-monitor \
-gnome-disk-utility \
-gparted \
-distrobox \
 gnome-connections \
 loupe \
 snapshot \
