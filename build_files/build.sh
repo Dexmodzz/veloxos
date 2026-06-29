@@ -270,6 +270,7 @@ dnf -y remove waybar
 
 # Remove third-party repos — packages already installed, repos cause GPG errors at ISO build time
 rm -f /etc/yum.repos.d/terra*.repo
+rm -f /etc/yum.repos.d/rpmfusion*.repo
 rm -f /etc/yum.repos.d/google-chrome.repo
 rm -f /etc/yum.repos.d/edge.repo
 rm -f /etc/yum.repos.d/vscode.repo
