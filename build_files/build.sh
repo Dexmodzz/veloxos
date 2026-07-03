@@ -97,6 +97,8 @@ libxcrypt-compat \
 rsync \
 podman \
 distrobox \
+gnome-disk-utility \
+gparted \
 mokutil \
 lm_sensors \
 sqlite3 \

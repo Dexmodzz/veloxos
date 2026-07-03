@@ -43,6 +43,8 @@ git
 flatpak
 podman
 distrobox
+gnome-disk-utility
+gparted
 podman-compose
 lm_sensors
 v4l-utils
