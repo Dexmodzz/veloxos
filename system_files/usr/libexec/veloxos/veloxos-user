@@ -1,38 +1,32 @@
 #!/bin/bash
-set -euo pipefail
+set -uo pipefail   # niente -e: un errore secondario non deve uccidere lo script
 
 MARKER_FILE="$HOME/.config/veloxos/.firstrun-done"
-
 mkdir -p "$(dirname "$MARKER_FILE")"
 
-# Ensure a locale is set. Inside a systemd --user service LANG is often empty,
-# which makes xdg-user-dirs-update fall back to C/English names (or skip
-# translation). Source the system locale so folders are created localized
-# (e.g. Scrivania, Scaricati), falling back to Italian if nothing is set.
+# Usa la lingua con cui è stato installato il sistema (/etc/locale.conf).
+# Dentro un systemd --user service LANG è spesso vuoto, quindi la leggiamo da lì.
+# Nessun fallback forzato: se manca, xdg-user-dirs-update usa il suo default.
 if [ -z "${LANG:-}" ] || [ "${LANG:-}" = "C" ]; then
     if [ -r /etc/locale.conf ]; then
         # shellcheck disable=SC1091
         . /etc/locale.conf
+        export LANG
     fi
-    export LANG="${LANG:-it_IT.UTF-8}"
 fi
 
 if [ ! -f "$MARKER_FILE" ]; then
-
-    # Create standard XDG user directories (Scrivania, Scaricati, Immagini...).
-    # Guard against failure so the rest of the first-run setup still proceeds
-    # and the marker gets written.
+    # Crea le cartelle XDG standard nella lingua del sistema.
     xdg-user-dirs-update --force || true
 
-    # Create symlink safely
+    # Symlink icone (sicuro)
     if [ ! -e "$HOME/.icons" ]; then
-        ln -s "$HOME/.local/share/icons" "$HOME/.icons"
+        ln -s "$HOME/.local/share/icons" "$HOME/.icons" || true
     fi
 
-    # Setup Initial Flatpak Overrides
+    # Override Flatpak iniziali
     OVERRIDE="$HOME/.local/share/flatpak/overrides/global"
     mkdir -p "$(dirname "$OVERRIDE")"
-
     cat > "$OVERRIDE" <<'EOF'
 [Context]
 filesystems=xdg-config/gtk-3.0:ro;xdg-data/applications;~/.var/app/io.github.benjamimgois.goverlay/data/goverlay;xdg-config/gtk-4.0:ro;/var/mnt;xdg-config/vkBasalt:create;/mnt;xdg-run/.flatpak/com.discordapp.Discord:create;~/.themes;~/.icons;/home;/var/home;xdg-data/icons;xdg-desktop;xdg-config/MangoHud:create;
@@ -44,24 +38,16 @@ EOF
     touch "$MARKER_FILE"
 fi
 
-# Sync system themes so flatpak has access
+# Sincronizza i temi di sistema così i Flatpak vi hanno accesso (non bloccante)
 SYSTEM_THEMES="/usr/share/themes"
 USER_THEMES="$HOME/.themes"
-
 mkdir -p "$USER_THEMES"
 
-rsync -a --copy-links \
-  --exclude="Clearlooks" \
-  --exclude="Crux" \
-  --exclude="HighContrast" \
-  --exclude="Industrial" \
-  --exclude="Mist" \
-  --exclude="Raleigh" \
-  --exclude="ThinIce" \
-  "$SYSTEM_THEMES/" "$USER_THEMES/"
-
-# Set the correct permissions for the user directory 
-echo "Setting correct permissions for $USER_THEMES..." 
-chown -R "$USER:$USER" "$USER_THEMES"
+if command -v rsync >/dev/null 2>&1; then
+    rsync -a --copy-links \
+      --exclude="Clearlooks" --exclude="Crux" --exclude="HighContrast" \
+      --exclude="Industrial" --exclude="Mist" --exclude="Raleigh" --exclude="ThinIce" \
+      "$SYSTEM_THEMES/" "$USER_THEMES/" || true
+fi
 
 echo "VeloxOS user setup complete."
