@@ -5,10 +5,24 @@ MARKER_FILE="$HOME/.config/veloxos/.firstrun-done"
 
 mkdir -p "$(dirname "$MARKER_FILE")"
 
+# Ensure a locale is set. Inside a systemd --user service LANG is often empty,
+# which makes xdg-user-dirs-update fall back to C/English names (or skip
+# translation). Source the system locale so folders are created localized
+# (e.g. Scrivania, Scaricati), falling back to Italian if nothing is set.
+if [ -z "${LANG:-}" ] || [ "${LANG:-}" = "C" ]; then
+    if [ -r /etc/locale.conf ]; then
+        # shellcheck disable=SC1091
+        . /etc/locale.conf
+    fi
+    export LANG="${LANG:-it_IT.UTF-8}"
+fi
+
 if [ ! -f "$MARKER_FILE" ]; then
 
-    # Create standard XDG user directories (Downloads, Desktop, Pictures, etc.)
-    xdg-user-dirs-update --force
+    # Create standard XDG user directories (Scrivania, Scaricati, Immagini...).
+    # Guard against failure so the rest of the first-run setup still proceeds
+    # and the marker gets written.
+    xdg-user-dirs-update --force || true
 
     # Create symlink safely
     if [ ! -e "$HOME/.icons" ]; then
