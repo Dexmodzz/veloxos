@@ -35,6 +35,14 @@ filesystems=xdg-config/gtk-3.0:ro;xdg-data/applications;~/.var/app/io.github.ben
 VK_INSTANCE_LAYERS=VK_LAYER_MANGOHUD_overlay_x86_64
 EOF
 
+    # Dark mode per le app GNOME/libadwaita/libhandy (es. gnome-disk-utility):
+    # queste decidono chiaro/scuro dal color-scheme esposto dal portale, non dal
+    # nome del tema GTK. Impostiamo prefer-dark così vanno in scuro anche loro.
+    if command -v gsettings >/dev/null 2>&1; then
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
+        gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' || true
+    fi
+
     touch "$MARKER_FILE"
 fi
 

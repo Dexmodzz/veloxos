@@ -99,6 +99,7 @@ podman \
 distrobox \
 gnome-disk-utility \
 gparted \
+xhost \
 mokutil \
 lm_sensors \
 sqlite3 \
