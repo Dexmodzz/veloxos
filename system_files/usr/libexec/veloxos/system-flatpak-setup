@@ -42,6 +42,25 @@ if [[ "$MODE" == "boot" ]]; then
         touch "$MARKER_FILE"
     fi
 
+    # Default system Flatpaks installed at first boot (idempotente).
+    # BoxBuddy non esiste come RPM: è un Flatpak, quindi va qui e non in build.sh.
+    DEFAULT_FLATPAKS=(
+        io.github.dvlv.boxbuddyrs   # BoxBuddy — GUI per distrobox
+    )
+    FLATPAK_MARKER="/var/lib/veloxos/default_flatpaks_installed"
+
+    if [ ! -f "$FLATPAK_MARKER" ]; then
+        # Assicura il remote (il blocco sopra gira solo alla prima esecuzione)
+        flatpak remote-add --if-not-exists --system \
+            flathub https://flathub.org/repo/flathub.flatpakrepo || true
+
+        if flatpak install -y --system --noninteractive flathub "${DEFAULT_FLATPAKS[@]}"; then
+            touch "$FLATPAK_MARKER"
+        else
+            echo "Install Flatpak di default incompleta (rete assente?), riprovo al prossimo boot."
+        fi
+    fi
+
 fi
 
 ########################################
