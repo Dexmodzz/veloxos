@@ -9845,7 +9845,7 @@
         {
           "type": "org.osbuild.mkfs.fat",
           "options": {
-            "volid": "F9B9FD04"
+            "volid": "0928F53C"
           },
           "devices": {
             "device": {

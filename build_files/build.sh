@@ -281,6 +281,9 @@ rm -f /etc/yum.repos.d/rpmfusion*.repo
 rm -f /etc/yum.repos.d/google-chrome.repo
 rm -f /etc/yum.repos.d/edge.repo
 rm -f /etc/yum.repos.d/vscode.repo
+# NB: i repo COPR restano abilitati qui perché nvidia.sh/drivers.sh installano
+# ancora da essi (atim/xpadneo, ublue-os/akmods). Vengono disabilitati alla
+# fine di tutto in post-build.sh.
 
 # Clean up
 dnf5 -y clean all

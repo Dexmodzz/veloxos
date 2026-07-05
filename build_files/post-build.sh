@@ -117,6 +117,13 @@ rm -f \
 
 update-desktop-database /usr/share/applications
 
+# Disabilita tutti i repo COPR nell'immagine finale (gira per ultimo, dopo che
+# nvidia.sh/drivers.sh hanno finito di installare). I pacchetti sono già dentro
+# l'immagine e bootc aggiorna via immagine, non via questi repo: lasciarli
+# abilitati fa fallire bootc-image-builder / dnf quando un COPR perde il chroot
+# della Fedora corrente (es. sentry/xone su F44 → repomd.xml 404).
+sed -i 's/^enabled=1/enabled=0/' /etc/yum.repos.d/_copr*.repo 2>/dev/null || true
+
 # Brand as VeloxOS — keep ID=fedora for tool compatibility (bootc-image-builder, dnf copr, etc.)
 sed -i 's/^NAME=.*/NAME=VeloxOS/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
 sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="VeloxOS"/' /usr/lib/os-release /etc/os-release 2>/dev/null || true
