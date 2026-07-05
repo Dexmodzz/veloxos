@@ -21,8 +21,10 @@ dnf5 -y copr enable faugus/faugus-launcher fedora-${FEDORA_VERSION}-x86_64
 dnf5 -y copr enable ilyaz/LACT fedora-${FEDORA_VERSION}-x86_64
 dnf5 -y copr enable garecrow/ExtensionManager fedora-${FEDORA_VERSION}-x86_64
 dnf5 -y copr enable wehagy/protonplus fedora-${FEDORA_VERSION}-x86_64
-dnf5 -y copr enable sentry/xone fedora-${FEDORA_VERSION}-x86_64
-dnf5 -y copr enable sentry/xpadneo fedora-${FEDORA_VERSION}-x86_64
+# Controller Xbox via Bluetooth → xpadneo dal COPR atim (ha il chroot F44).
+# NB: sentry/xone rimosso: non ha più chroot F44 e serviva solo per il
+# dongle wireless USB, che non usiamo.
+dnf5 -y copr enable atim/xpadneo fedora-${FEDORA_VERSION}-x86_64
 dnf5 -y copr enable ublue-os/akmods fedora-${FEDORA_VERSION}-x86_64
 dnf5 -y install \
 https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm \

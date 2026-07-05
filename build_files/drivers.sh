@@ -6,12 +6,9 @@ set -ouex pipefail
 QUALIFIED_KERNEL=$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}\n' kernel-cachyos)
 
 # Install controller and power management drivers
-# COPRs enabled in build.sh: sentry/xone, sentry/xpadneo, ublue-os/akmods
+# COPRs enabled in build.sh: atim/xpadneo, ublue-os/akmods
 dnf5 install -y --setopt=tsflags=noscripts \
     xpadneo \
-    xpad-noone \
-    xone \
-    lpf-xone-firmware \
     zenergy
 
 # Build akmods (handles akmod-* packages if present)
