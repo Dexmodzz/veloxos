@@ -130,7 +130,7 @@ wlr-randr \
 iotop \
 sysstat \
 lxqt-openssh-askpass \
-polkit-gnome \
+mate-polkit \
 parallel \
 just \
 seahorse \
