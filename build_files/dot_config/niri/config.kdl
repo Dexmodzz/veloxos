@@ -374,7 +374,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     // Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+D { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
     Mod+B hotkey-overlay-title="Open Brave" { spawn "brave-origin"; }
@@ -640,7 +640,7 @@ binds {
     Mod+MouseMiddle { close-window; }
 
     Mod+E { spawn "thunar"; }
-    Mod+Return { spawn "alacritty"; }
+    Mod+Return { spawn "kitty"; }
 }
 include "dms/binds.kdl"
 

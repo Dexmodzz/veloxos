@@ -69,7 +69,7 @@ appstream
 appstream-data
 fwupd
 ffmpeg
-alacritty
+kitty
 libvirt
 virt-manager
 qemu-kvm

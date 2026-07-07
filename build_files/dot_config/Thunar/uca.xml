@@ -2,10 +2,10 @@
 <actions>
 <action>
 	<icon>utilities-terminal</icon>
-	<name>Open Terminal Here</name>
+	<name>Open terminal here</name>
 	<submenu></submenu>
-	<unique-id>1782158545668504-1</unique-id>
-	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+	<unique-id>1778760327738506-1</unique-id>
+	<command>kitty --directory %f</command>
 	<description>Example for a custom action</description>
 	<range></range>
 	<patterns>*</patterns>

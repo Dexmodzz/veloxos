@@ -120,7 +120,7 @@ fuse \
 squashfuse \
 v4l-utils \
 unzip \
-alacritty \
+kitty \
 libvirt \
 virt-manager \
 qemu-kvm \

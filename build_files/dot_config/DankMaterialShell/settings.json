@@ -282,7 +282,7 @@
   "matugenTemplateGhostty": true,
   "matugenTemplateKitty": true,
   "matugenTemplateFoot": true,
-  "matugenTemplateAlacritty": true,
+  "matugenTemplateAlacritty": false,
   "matugenTemplateNeovim": false,
   "matugenTemplateWezterm": true,
   "matugenTemplateDgop": true,
