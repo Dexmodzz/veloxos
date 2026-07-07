@@ -85,6 +85,7 @@ cachyos-settings \
 bore-sysctl \
 scx-scheds \
 scx-tools \
+scx-manager \
 gamemode \
 gamemode.i686 \
 pulseaudio-utils \
@@ -129,7 +130,7 @@ wlr-randr \
 iotop \
 sysstat \
 lxqt-openssh-askpass \
-lxpolkit \
+polkit-gnome \
 parallel \
 just \
 seahorse \
@@ -229,6 +230,7 @@ flatpak-repair.timer \
 rpm-ostree-clean-metadata.timer \
 rpm-ostree-clean-deployments.timer \
 podman-prune.timer \
+scx_loader.service \
 NetworkManager \
 wpa_supplicant
 

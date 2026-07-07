@@ -31,6 +31,7 @@ cachyos-settings
 bore-sysctl
 scx-scheds
 scx-tools
+scx-manager
 gamemode
 gamemode.i686
 pulseaudio-utils
@@ -77,7 +78,7 @@ wlr-randr
 iotop
 sysstat
 lxqt-openssh-askpass
-lxpolkit
+polkit-gnome
 parallel
 just
 seahorse

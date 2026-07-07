@@ -275,7 +275,7 @@ layout {
 // spawn-sh-at-startup "qs -c noctalia-shell"
 // spawn-at-startup "dms run"
 
-spawn-sh-at-startup "lxpolkit"
+spawn-at-startup "/usr/libexec/polkit-gnome-authentication-agent-1"
 // Consente alle app grafiche lanciate come root via pkexec (es. GParted) di
 // aprirsi su Xwayland. Senza questo GParted fallisce con
 // "Authorization required, but no authorization protocol specified".
