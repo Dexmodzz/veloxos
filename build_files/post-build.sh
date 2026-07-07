@@ -84,7 +84,9 @@ just
 seahorse
 thunar
 mpv
+loupe
 cosmic-store
+codium
 nwg-look
 adw-gtk3-theme
 brave-browser

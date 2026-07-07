@@ -135,6 +135,7 @@ parallel \
 just \
 seahorse \
 mpv \
+loupe \
 cosmic-store
 
 # nwg-look
@@ -146,6 +147,20 @@ mkdir -p /var/opt
 dnf5 -y install dnf-plugins-core
 dnf5 config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 dnf5 -y install brave-origin
+
+# VSCodium (RPM ufficiale, non flatpak)
+rpm --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
+cat > /etc/yum.repos.d/vscodium.repo << 'EOF'
+[gitlab.com_paulcarroty_vscodium_repo]
+name=download.vscodium.com
+baseurl=https://download.vscodium.com/rpms/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
+metadata_expire=1h
+EOF
+dnf5 -y install codium
 
 # Niri
 dnf5 -y install niri
@@ -283,6 +298,7 @@ rm -f /etc/yum.repos.d/rpmfusion*.repo
 rm -f /etc/yum.repos.d/google-chrome.repo
 rm -f /etc/yum.repos.d/edge.repo
 rm -f /etc/yum.repos.d/vscode.repo
+rm -f /etc/yum.repos.d/vscodium.repo
 # NB: i repo COPR restano abilitati qui perché nvidia.sh/drivers.sh installano
 # ancora da essi (atim/xpadneo, ublue-os/akmods). Vengono disabilitati alla
 # fine di tutto in post-build.sh.
