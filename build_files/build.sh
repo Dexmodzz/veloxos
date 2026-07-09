@@ -121,6 +121,7 @@ squashfuse \
 v4l-utils \
 unzip \
 kitty \
+fish \
 libvirt \
 virt-manager \
 qemu-kvm \

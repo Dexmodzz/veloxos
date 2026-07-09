@@ -63,6 +63,7 @@ openssl
 libnotify
 inotify-tools
 unzip
+fish
 python3-pip
 python3-setuptools
 appstream
