@@ -34,6 +34,7 @@ scx-tools
 scx-manager
 gamemode
 gamemode.i686
+power-profiles-daemon
 pulseaudio-utils
 dkms
 akmods
@@ -64,6 +65,7 @@ libnotify
 inotify-tools
 unzip
 fish
+cascadia-code-nf-fonts
 python3-pip
 python3-setuptools
 appstream

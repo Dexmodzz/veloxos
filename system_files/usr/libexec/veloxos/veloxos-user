@@ -24,6 +24,19 @@ if [ ! -f "$MARKER_FILE" ]; then
         ln -s "$HOME/.local/share/icons" "$HOME/.icons" || true
     fi
 
+    # Bookmarks GTK generati per-utente: percorsi corretti e localizzati.
+    # (GTK non espande ~/$HOME, quindi niente path hardcoded nei dotfiles.)
+    GTK_BM="$HOME/.config/gtk-3.0/bookmarks"
+    if [ ! -f "$GTK_BM" ]; then
+        mkdir -p "$(dirname "$GTK_BM")"
+        {
+            for d in DESKTOP DOCUMENTS DOWNLOAD MUSIC VIDEOS PICTURES; do
+                p=$(xdg-user-dir "$d" 2>/dev/null)
+                [ -n "$p" ] && [ "$p" != "$HOME" ] && printf 'file://%s\n' "$p"
+            done
+        } > "$GTK_BM" || true
+    fi
+
     # Override Flatpak iniziali
     OVERRIDE="$HOME/.local/share/flatpak/overrides/global"
     mkdir -p "$(dirname "$OVERRIDE")"

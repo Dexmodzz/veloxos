@@ -1,7 +1,7 @@
 {
   "currentThemeName": "custom",
   "currentThemeCategory": "registry",
-  "customThemeFile": "/home/nicola/.config/DankMaterialShell/themes/gnomeAdwaita/theme.json",
+  "customThemeFile": "~/.config/DankMaterialShell/themes/gnomeAdwaita/theme.json",
   "registryThemeVariants": {},
   "matugenScheme": "scheme-tonal-spot",
   "runUserMatugenTemplates": true,

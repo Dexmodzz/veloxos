@@ -88,6 +88,7 @@ scx-tools \
 scx-manager \
 gamemode \
 gamemode.i686 \
+power-profiles-daemon \
 pulseaudio-utils \
 dkms \
 akmods \
@@ -122,6 +123,7 @@ v4l-utils \
 unzip \
 kitty \
 fish \
+cascadia-code-nf-fonts \
 libvirt \
 virt-manager \
 qemu-kvm \
@@ -247,6 +249,7 @@ rpm-ostree-clean-metadata.timer \
 rpm-ostree-clean-deployments.timer \
 podman-prune.timer \
 scx_loader.service \
+power-profiles-daemon.service \
 NetworkManager \
 wpa_supplicant
 
