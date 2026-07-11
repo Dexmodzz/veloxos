@@ -64,6 +64,8 @@ openssl
 libnotify
 inotify-tools
 unzip
+solaar
+solaar-udev
 fish
 cascadia-code-nf-fonts
 python3-pip
