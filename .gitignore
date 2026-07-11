@@ -1,0 +1,5 @@
+# Claude Code: worktree e stato locale
+.claude/
+
+# Output di bootc-image-builder (immagini, qcow2, ISO)
+output/
