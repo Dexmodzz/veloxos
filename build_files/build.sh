@@ -121,6 +121,8 @@ fuse \
 squashfuse \
 v4l-utils \
 unzip \
+solaar \
+solaar-udev \
 kitty \
 fish \
 cascadia-code-nf-fonts \
