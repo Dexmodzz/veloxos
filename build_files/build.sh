@@ -239,6 +239,10 @@ systemctl mask systemd-remount-fs.service
 mkdir -p /usr/lib/systemd/user/default.target.wants
 ln -sf /usr/lib/systemd/user/veloxos-user.service /usr/lib/systemd/user/default.target.wants/veloxos-user.service
 
+# Enable skel→home sync: propaga i dotfile di default aggiornati alle home
+# esistenti dopo un `bootc upgrade` (skel di norma vale solo alla creazione utente).
+ln -sf /usr/lib/systemd/user/veloxos-skel-sync.service /usr/lib/systemd/user/default.target.wants/veloxos-skel-sync.service
+
 # Enable services
 systemctl enable \
 gpu-detect.service \
