@@ -9,11 +9,11 @@
                       ╚═══╝  ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
 ```
 
-<a href="#-download"><img src="https://img.shields.io/badge/⬇️%20Download-ISO-blue?style=for-the-badge" alt="Download ISO"></a>
-<a href="https://github.com/Dexmodzz/veloxos/stargazers"><img src="https://img.shields.io/github/stars/Dexmodzz/veloxos?style=for-the-badge&color=yellow" alt="GitHub stars"></a>
-<a href="https://github.com/Dexmodzz/veloxos/commits/main"><img src="https://img.shields.io/github/last-commit/Dexmodzz/veloxos?style=for-the-badge" alt="Last commit"></a>
-<img src="https://img.shields.io/badge/platform-linux-informational?style=for-the-badge&logo=linux&logoColor=white" alt="Platform Linux">
-<img src="https://img.shields.io/github/languages/top/Dexmodzz/veloxos?style=for-the-badge" alt="Top language">
+[![Download](https://img.shields.io/badge/⬇️%20Download-ISO-blue?style=flat-square)](#-download)
+[![Stars](https://img.shields.io/github/stars/Dexmodzz/veloxos?style=flat-square)](https://github.com/Dexmodzz/veloxos/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Dexmodzz/veloxos?style=flat-square)](https://github.com/Dexmodzz/veloxos/commits/main)
+[![Platform](https://img.shields.io/badge/platform-Linux-blue?style=flat-square&logo=linux)](https://kernel.org)
+[![Shell](https://img.shields.io/badge/shell-Bash-4EAA25?style=flat-square&logo=gnubash)](https://www.gnu.org/software/bash/)
 
 </div>
 
