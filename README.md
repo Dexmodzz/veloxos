@@ -164,22 +164,14 @@ The **Mod** key defaults to the **Super/Windows** key.
 
 > Tip: press `Mod + Shift + Slash` at any time to see the full, always up-to-date list of available shortcuts on screen.
 
-<div align="center">
-
 ## Getting started
-
-</div>
 
 1. Download/install the VeloxOS (bootc) image following the project's instructions.
 2. On first boot you'll already have: the niri + DankMaterialShell desktop, kitty terminal, Thunar file manager, and a consistent Material theme.
 3. Use the `veloxos` command in the terminal to install extra packages, update the system, or enable optional features (gaming, virtualization, local AI).
 4. To build the image from this repo, check the `Justfile` (`just --list` for the full list of available commands).
 
-<div align="center">
-
 ## Useful links
-
-</div>
 
 - Bug reports/issues: https://github.com/Dexmodzz/veloxos/issues
 - Home: https://github.com/Dexmodzz/veloxos
