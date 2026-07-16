@@ -27,7 +27,7 @@
 
 <div align="center">
   
-## What is VeloxOS
+## 🖥️ What is VeloxOS
 
 VeloxOS is a custom Linux image based on **Fedora Atomic (bootc)**: the operating system is shipped as an **immutable container image**, updated via `bootc` instead of a classic package manager. This means atomic updates, easy rollbacks if something goes wrong, and a base system that's always consistent and reproducible.
 
@@ -81,7 +81,7 @@ Once the flash is complete, reboot your PC and boot from the USB drive to start 
 
 <div align="center">
 
-## What you'll find in this repository
+## 📦 What you'll find in this repository
 
 This repo contains everything needed to **build the VeloxOS image** (it's the distro's source code, not the ready-to-run distro itself):
 
@@ -101,7 +101,7 @@ In short: if you want to **use** VeloxOS, download/install the ready-made image;
 
 <div align="center">
 
-## The `veloxos` command
+## 🛠️ The `veloxos` command
 
 The system includes a terminal helper for managing extra packages and optional features without touching the immutable base:
 
@@ -124,7 +124,7 @@ The system includes a terminal helper for managing extra packages and optional f
 
 <div align="center">
 
-## Main keyboard shortcuts (niri + DMS)
+## ⌨️ Main keyboard shortcuts (niri + DMS)
 
 The **Mod** key defaults to the **Super/Windows** key.
 
@@ -168,14 +168,14 @@ The **Mod** key defaults to the **Super/Windows** key.
 
 > Tip: press `Mod + Shift + Slash` at any time to see the full, always up-to-date list of available shortcuts on screen.
 
-## Getting started
+## 🚀 Getting started
 
 1. Download/install the VeloxOS (bootc) image following the project's instructions.
 2. On first boot you'll already have: the niri + DankMaterialShell desktop, kitty terminal, Thunar file manager, and a consistent Material theme.
 3. Use the `veloxos` command in the terminal to install extra packages, update the system, or enable optional features (gaming, virtualization, local AI).
 4. To build the image from this repo, check the `Justfile` (`just --list` for the full list of available commands).
 
-## Useful links
+## 🔗 Useful links
 
 - Bug reports/issues: https://github.com/Dexmodzz/veloxos/issues
 - Home: https://github.com/Dexmodzz/veloxos
