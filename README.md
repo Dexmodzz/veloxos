@@ -10,6 +10,10 @@
 ```
 
 <a href="#-download"><img src="https://img.shields.io/badge/⬇️%20Download-ISO-blue?style=for-the-badge" alt="Download ISO"></a>
+<a href="https://github.com/Dexmodzz/veloxos/stargazers"><img src="https://img.shields.io/github/stars/Dexmodzz/veloxos?style=for-the-badge&color=yellow" alt="GitHub stars"></a>
+<a href="https://github.com/Dexmodzz/veloxos/commits/main"><img src="https://img.shields.io/github/last-commit/Dexmodzz/veloxos?style=for-the-badge" alt="Last commit"></a>
+<img src="https://img.shields.io/badge/platform-linux-informational?style=for-the-badge&logo=linux&logoColor=white" alt="Platform Linux">
+<img src="https://img.shields.io/github/languages/top/Dexmodzz/veloxos?style=for-the-badge" alt="Top language">
 
 </div>
 
