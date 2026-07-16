@@ -1,0 +1,14 @@
+[Unit]
+Description=VeloxOS User Setup Service
+# Run before the graphical session apps (Thunar, ecc.) so the XDG user
+# directories esistono già quando il file manager si apre.
+Before=graphical-session.target
+ConditionUser=!root
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/veloxos-user
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target

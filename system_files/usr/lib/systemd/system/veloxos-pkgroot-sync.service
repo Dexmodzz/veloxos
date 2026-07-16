@@ -1,0 +1,18 @@
+[Unit]
+Description=VeloxOS Package Root Sync
+Documentation=https://veloxos.org
+After=network-online.target systemd-resolved.service veloxos-pkgroot-init.service veloxos-migrate.service
+Wants=network-online.target systemd-resolved.service
+Requires=veloxos-pkgroot-init.service
+ConditionPathExists=/var/lib/veloxos/packages.list
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/bash -c 'until nslookup mirrors.fedoraproject.org >/dev/null 2>&1; do echo "Waiting for DNS..."; sleep 2; done'
+ExecStart=/usr/libexec/veloxos/veloxos-pkgroot-sync
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

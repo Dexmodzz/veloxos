@@ -1,0 +1,13 @@
+[Unit]
+Description=VeloxOS skel→home sync (propaga i dotfile di default aggiornati dopo un update immagine)
+# Dopo il setup utente, così le cartelle XDG esistono già.
+After=veloxos-user.service
+ConditionUser=!root
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/veloxos-skel-sync
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target

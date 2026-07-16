@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -e
+
+COMMAND="${1:-}"
+
+case "$COMMAND" in
+    install)
+        shift
+        /usr/libexec/veloxos/veloxos-install "$@"
+    ;;
+    update)
+        shift
+        /usr/libexec/veloxos/veloxos-update "$@"
+    ;;
+    remove)
+        shift
+        /usr/libexec/veloxos/veloxos-remove "$@"
+    ;;
+    system-upgrade)
+        shift
+        /usr/libexec/veloxos/veloxos-updater "$@"
+    ;;
+    list)
+        /usr/libexec/veloxos/veloxos-list
+    ;;
+    reset-overlay)
+        shift
+        /usr/libexec/veloxos/veloxos-reset-overlay "$@"
+    ;;
+    setup-gaming)
+        /usr/libexec/veloxos/setup-gaming
+    ;;
+    setup-virtualization)
+        /usr/libexec/veloxos/setup-virtualization
+    ;;
+    setup-lsfg-vk)
+        /usr/libexec/veloxos/setup-lsfg-vk
+    ;;
+    setup-stoat)
+        /usr/libexec/veloxos/setup-stoat
+    ;;
+    setup-ollama)
+        /usr/libexec/veloxos/setup-ollama
+    ;;
+    *)
+        echo "VeloxOS Helper"
+        echo ""
+        echo "Usage:"
+        echo "  veloxos install <package> [pkg2...]   Install packages via overlay"
+        echo "  veloxos update                        Update packages via overlay"
+        echo "  veloxos remove <package> [pkg2...]    Remove packages from overlay"
+        echo "  veloxos list                          List overlay installed packages"
+        echo "  veloxos system-upgrade                Check for and Apply system image upgrades"
+        echo "  veloxos reset-overlay --confirm       Wipe overlay and all installed packages
+  veloxos reset-overlay --soft          Soft reset: rebuild overlay, preserve packages.list"
+        echo "  veloxos setup-gaming                  Set up native gaming packages along with some apps from flathub"
+        echo "  veloxos setup-virtualization          Set up KVM/QEMU virtualization"
+        echo "  veloxos setup-lsfg-vk                 Set up Lossless Scaling Frame Gen"
+        echo "  veloxos setup-stoat                   Set up Stoat"
+        echo "  veloxos setup-ollama                  Set up Ollama local AI"
+        exit 1
+    ;;
+esac

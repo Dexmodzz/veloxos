@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RAKUOS_SHARE=/usr/share/veloxos
+FIX_DIR=/usr/libexec/veloxos/flatpak-fixes
+
+MODE="${1:-boot}"
+APPID="${2:-}"
+ACTION="${3:-unknown}"
+
+MARKER_FILE="/var/lib/veloxos/flathub_fixed"
+
+mkdir -p /var/lib/veloxos
+
+########################################
+# Normalize / validate mode
+########################################
+
+case "$MODE" in
+    boot|watcher)
+        ;;
+    *)
+        echo "Unknown mode '$MODE', defaulting to boot"
+        MODE="boot"
+        ;;
+esac
+
+########################################
+# Global fixes (boot)
+########################################
+
+if [[ "$MODE" == "boot" ]]; then
+
+    if [ ! -f "$MARKER_FILE" ]; then
+        echo "Fixing system-wide Flathub remote..."
+
+        flatpak remote-delete --force flathub 2>/dev/null || true
+
+        flatpak remote-add --if-not-exists --system \
+            flathub https://flathub.org/repo/flathub.flatpakrepo
+
+        touch "$MARKER_FILE"
+    fi
+
+    # Default system Flatpaks installed at first boot (idempotente).
+    # BoxBuddy non esiste come RPM: è un Flatpak, quindi va qui e non in build.sh.
+    DEFAULT_FLATPAKS=(
+        io.github.dvlv.boxbuddyrs   # BoxBuddy — GUI per distrobox
+    )
+    FLATPAK_MARKER="/var/lib/veloxos/default_flatpaks_installed"
+
+    if [ ! -f "$FLATPAK_MARKER" ]; then
+        # Assicura il remote (il blocco sopra gira solo alla prima esecuzione)
+        flatpak remote-add --if-not-exists --system \
+            flathub https://flathub.org/repo/flathub.flatpakrepo || true
+
+        if flatpak install -y --system --noninteractive flathub "${DEFAULT_FLATPAKS[@]}"; then
+            touch "$FLATPAK_MARKER"
+        else
+            echo "Install Flatpak di default incompleta (rete assente?), riprovo al prossimo boot."
+        fi
+    fi
+
+fi
+
+########################################
+# Per-app fixes (watcher trigger)
+########################################
+
+if [[ "$MODE" == "watcher" && -n "$APPID" ]]; then
+
+    FIX_SCRIPT="$FIX_DIR/$APPID.sh"
+
+    if [[ -x "$FIX_SCRIPT" ]]; then
+        echo "Running fix module for $APPID"
+        "$FIX_SCRIPT" "$ACTION"
+    else
+        echo "No fix module for $APPID"
+    fi
+
+fi

@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# veloxos-skel-sync — propaga i dotfile di /etc/skel aggiornati nella home di un
+# utente ESISTENTE dopo un aggiornamento immagine (bootc), SENZA sovrascrivere le
+# personalizzazioni dell'utente.
+#
+# /etc/skel popola la home solo alla creazione dell'utente: dopo un `bootc
+# upgrade` i default aggiornati finiscono in /etc/skel ma le home esistenti non
+# cambiano. Questo script colma quel divario.
+#
+# Strategia: teniamo per-utente uno snapshot di skel com'era all'ultimo sync (la
+# "base") e facciamo un confronto a 3 vie per ogni file fornito da skel:
+#
+#     base = skel all'ultimo sync   (snapshot in $STATE_DIR/skel-base)
+#     new  = skel adesso            (/etc/skel, dall'immagine corrente)
+#     cur  = il file dell'utente    ($HOME/<rel>)
+#
+#   new == base              -> default invariato: non tocca cur
+#   new != base, cur == base -> mai modificato dall'utente: aggiorna cur := new
+#   new != base, cur != base -> personalizzato dall'utente: salva new come
+#                               cur.veloxnew e avvisa (nessun clobber)
+#   file nuovo, cur assente   -> lo aggiunge
+#
+# Lo snapshot "base" fa anche da rilevatore di cambiamento: se skel non è
+# cambiato, è un no-op. Girando come systemd --user, ogni scrittura ha già
+# l'owner corretto (niente chown).
+set -uo pipefail
+
+SKEL="/etc/skel"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/veloxos"
+BASE="$STATE_DIR/skel-base"
+EXCLUDE_FILE="/usr/share/veloxos/skel-sync.exclude"
+LOG_TAG="VeloxOS skel-sync"
+
+[ -n "${HOME:-}" ] && [ -d "$HOME" ] || { echo "$LOG_TAG: \$HOME non valido, esco."; exit 0; }
+[ -d "$SKEL" ] || { echo "$LOG_TAG: $SKEL assente, niente da fare."; exit 0; }
+mkdir -p "$STATE_DIR"
+
+# Pattern glob (relativi alla home, uno per riga, '#' = commento) da NON toccare.
+is_excluded() {
+    local rel="$1" pat
+    [ -f "$EXCLUDE_FILE" ] || return 1
+    while IFS= read -r pat; do
+        [[ -z "$pat" || "$pat" == \#* ]] && continue
+        # shellcheck disable=SC2053
+        case "$rel" in $pat) return 0 ;; esac
+    done < "$EXCLUDE_FILE"
+    return 1
+}
+
+# Copia base della base-snapshot corrente (usata all'init e al refresh finale).
+snapshot_base() {
+    rm -rf "$BASE"
+    mkdir -p "$BASE"
+    cp -a "$SKEL/." "$BASE/" 2>/dev/null || true
+}
+
+# Primo avvio per questo utente (nessuno snapshot base): la home è appena stata
+# popolata da skel da useradd, quindi adottiamo skel come baseline e non tocchiamo
+# nulla. Vale anche per utenti installati PRIMA di questa feature: baseline =
+# stato attuale, i sync futuri partono da qui (scelta conservativa).
+if [ ! -d "$BASE" ]; then
+    echo "$LOG_TAG: inizializzo baseline (primo avvio), nessuna modifica alla home."
+    snapshot_base
+    exit 0
+fi
+
+updated=0; added=0; conflicts=0
+
+while IFS= read -r -d '' src; do
+    rel="${src#"$SKEL"/}"
+    is_excluded "$rel" && continue
+    new="$SKEL/$rel"
+    base="$BASE/$rel"
+    cur="$HOME/$rel"
+
+    # skel invariato dall'ultimo sync -> niente da fare.
+    if [ -e "$base" ] && cmp -s "$new" "$base"; then
+        continue
+    fi
+
+    if [ ! -e "$cur" ] && [ ! -L "$cur" ]; then
+        # Default nuovo che l'utente non ha ancora -> aggiungi.
+        mkdir -p "$(dirname "$cur")"
+        cp -a "$new" "$cur" && { added=$((added + 1)); echo "$LOG_TAG: aggiunto $rel"; }
+    elif [ -e "$base" ] && cmp -s "$cur" "$base"; then
+        # L'utente non l'ha mai modificato -> aggiornabile in sicurezza.
+        mkdir -p "$(dirname "$cur")"
+        cp -a "$new" "$cur" && { updated=$((updated + 1)); echo "$LOG_TAG: aggiornato $rel"; }
+    elif cmp -s "$cur" "$new"; then
+        # La versione dell'utente è già uguale al nuovo default -> niente.
+        :
+    else
+        # Personalizzato dall'utente E default cambiato -> non sovrascrivere.
+        cp -a "$new" "$cur.veloxnew" 2>/dev/null \
+            && { conflicts=$((conflicts + 1)); echo "$LOG_TAG: $rel cambiato a monte ma modificato da te — nuovo default salvato come $rel.veloxnew"; }
+    fi
+done < <(find "$SKEL" \( -type f -o -type l \) -print0)
+
+# Aggiorna la baseline all'attuale skel per il prossimo confronto.
+snapshot_base
+
+echo "$LOG_TAG: fatto — $updated aggiornati, $added aggiunti, $conflicts tenuti come .veloxnew."
+
+# Avviso desktop se ci sono conflitti da rivedere (best-effort).
+if [ "$conflicts" -gt 0 ] && command -v notify-send >/dev/null 2>&1; then
+    notify-send -a "VeloxOS" "Config aggiornate" \
+        "$conflicts file di default sono cambiati ma li avevi personalizzati. I nuovi default sono salvati come *.veloxnew accanto ai tuoi." || true
+fi
+
+exit 0

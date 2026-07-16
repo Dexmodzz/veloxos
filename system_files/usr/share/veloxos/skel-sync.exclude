@@ -1,0 +1,5 @@
+# veloxos-skel-sync — glob (relativi alla home, uno per riga) da NON sincronizzare.
+# I file elencati qui non vengono mai propagati da /etc/skel alle home esistenti.
+# '#' inizia un commento. Esempi:
+#   .config/DankMaterialShell/settings.json
+#   .config/dconf/*

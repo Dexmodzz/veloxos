@@ -1,0 +1,74 @@
+#!/bin/bash
+set -uo pipefail   # niente -e: un errore secondario non deve uccidere lo script
+
+MARKER_FILE="$HOME/.config/veloxos/.firstrun-done"
+mkdir -p "$(dirname "$MARKER_FILE")"
+
+# Usa la lingua con cui è stato installato il sistema (/etc/locale.conf).
+# Dentro un systemd --user service LANG è spesso vuoto, quindi la leggiamo da lì.
+# Nessun fallback forzato: se manca, xdg-user-dirs-update usa il suo default.
+if [ -z "${LANG:-}" ] || [ "${LANG:-}" = "C" ]; then
+    if [ -r /etc/locale.conf ]; then
+        # shellcheck disable=SC1091
+        . /etc/locale.conf
+        export LANG
+    fi
+fi
+
+if [ ! -f "$MARKER_FILE" ]; then
+    # Crea le cartelle XDG standard nella lingua del sistema.
+    xdg-user-dirs-update --force || true
+
+    # Symlink icone (sicuro)
+    if [ ! -e "$HOME/.icons" ]; then
+        ln -s "$HOME/.local/share/icons" "$HOME/.icons" || true
+    fi
+
+    # Bookmarks GTK generati per-utente: percorsi corretti e localizzati.
+    # (GTK non espande ~/$HOME, quindi niente path hardcoded nei dotfiles.)
+    GTK_BM="$HOME/.config/gtk-3.0/bookmarks"
+    if [ ! -f "$GTK_BM" ]; then
+        mkdir -p "$(dirname "$GTK_BM")"
+        {
+            for d in DESKTOP DOCUMENTS DOWNLOAD MUSIC VIDEOS PICTURES; do
+                p=$(xdg-user-dir "$d" 2>/dev/null)
+                [ -n "$p" ] && [ "$p" != "$HOME" ] && printf 'file://%s\n' "$p"
+            done
+        } > "$GTK_BM" || true
+    fi
+
+    # Override Flatpak iniziali
+    OVERRIDE="$HOME/.local/share/flatpak/overrides/global"
+    mkdir -p "$(dirname "$OVERRIDE")"
+    cat > "$OVERRIDE" <<'EOF'
+[Context]
+filesystems=xdg-config/gtk-3.0:ro;xdg-data/applications;~/.var/app/io.github.benjamimgois.goverlay/data/goverlay;xdg-config/gtk-4.0:ro;/var/mnt;xdg-config/vkBasalt:create;/mnt;xdg-run/.flatpak/com.discordapp.Discord:create;~/.themes;~/.icons;/home;/var/home;xdg-data/icons;xdg-desktop;xdg-config/MangoHud:create;
+
+[Environment]
+VK_INSTANCE_LAYERS=VK_LAYER_MANGOHUD_overlay_x86_64
+EOF
+
+    # Dark mode per le app GNOME/libadwaita/libhandy (es. gnome-disk-utility):
+    # queste decidono chiaro/scuro dal color-scheme esposto dal portale, non dal
+    # nome del tema GTK. Impostiamo prefer-dark così vanno in scuro anche loro.
+    if command -v gsettings >/dev/null 2>&1; then
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
+        gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' || true
+    fi
+
+    touch "$MARKER_FILE"
+fi
+
+# Sincronizza i temi di sistema così i Flatpak vi hanno accesso (non bloccante)
+SYSTEM_THEMES="/usr/share/themes"
+USER_THEMES="$HOME/.themes"
+mkdir -p "$USER_THEMES"
+
+if command -v rsync >/dev/null 2>&1; then
+    rsync -a --copy-links \
+      --exclude="Clearlooks" --exclude="Crux" --exclude="HighContrast" \
+      --exclude="Industrial" --exclude="Mist" --exclude="Raleigh" --exclude="ThinIce" \
+      "$SYSTEM_THEMES/" "$USER_THEMES/" || true
+fi
+
+echo "VeloxOS user setup complete."
