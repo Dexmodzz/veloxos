@@ -53,6 +53,8 @@ Once downloaded, write the ISO to a USB drive and start the installation by foll
 
 </div>
 
+<div align="center">
+
 ### Creating a bootable USB drive
 
 - **[Rufus](https://rufus.ie/) (Windows)** — open Rufus, select your USB drive, choose the downloaded VeloxOS ISO as the boot selection, and click **Start** to write it to the drive.
@@ -65,13 +67,17 @@ Once downloaded, write the ISO to a USB drive and start the installation by foll
   ```
   sudo dd if=veloxos.iso of=/dev/sdX bs=4M status=progress conv=fsync
   ```
-  Replace `/dev/sdX` with your actual USB device (not a partition, e.g. `/dev/sda`) — double-check it, as `dd` will silently overwrite the target drive.
+<div align="center">
+  
+Replace `/dev/sdX` with your actual USB device (not a partition, e.g. `/dev/sda`) — double-check it, as `dd` will silently overwrite the target drive.
 
 Once the flash is complete, reboot your PC and boot from the USB drive to start the VeloxOS installer.
 
 ## What you'll find in this repository
 
 This repo contains everything needed to **build the VeloxOS image** (it's the distro's source code, not the ready-to-run distro itself):
+
+</div>
 
 | Path | Contents |
 |---|---|
@@ -83,11 +89,15 @@ This repo contains everything needed to **build the VeloxOS image** (it's the di
 | `installer/` | Support files for the system installer |
 | `Justfile` | Commands to build, test, and run VeloxOS in a VM (`just build-vm`, `just run-vm`, etc.) |
 
+<div align="center">
+
 In short: if you want to **use** VeloxOS, download/install the ready-made image; if you want to **modify or rebuild it**, this repo is the starting point.
 
 ## The `veloxos` command
 
 The system includes a terminal helper for managing extra packages and optional features without touching the immutable base:
+
+</div>
 
 | Command | Description |
 |---|---|
@@ -104,9 +114,13 @@ The system includes a terminal helper for managing extra packages and optional f
 | `veloxos setup-stoat` | Set up Stoat |
 | `veloxos setup-ollama` | Set up Ollama for local AI |
 
+<div align="center">
+
 ## Main keyboard shortcuts (niri + DMS)
 
 The **Mod** key defaults to the **Super/Windows** key.
+
+</div>
 
 | Shortcut | Action |
 |---|---|
@@ -144,6 +158,8 @@ The **Mod** key defaults to the **Super/Windows** key.
 | `XF86AudioMute` | Mute/unmute audio |
 | `XF86MonBrightnessUp/Down` | Brightness up/down |
 
+<div align="center">
+
 > Tip: press `Mod + Shift + Slash` at any time to see the full, always up-to-date list of available shortcuts on screen.
 
 ## Getting started
@@ -157,3 +173,4 @@ The **Mod** key defaults to the **Super/Windows** key.
 
 - Bug reports/issues: https://github.com/Dexmodzz/veloxos/issues
 - Home: https://github.com/Dexmodzz/veloxos
+</div>
