@@ -21,6 +21,8 @@
 
 ---
 
+<div align="center">
+  
 ## What is VeloxOS
 
 VeloxOS is a custom Linux image based on **Fedora Atomic (bootc)**: the operating system is shipped as an **immutable container image**, updated via `bootc` instead of a classic package manager. This means atomic updates, easy rollbacks if something goes wrong, and a base system that's always consistent and reproducible.
@@ -32,6 +34,8 @@ On top of this base, VeloxOS ships already configured and ready to use:
 - Pre-configured apps and tools: **kitty** terminal, **Thunar** file manager, a consistent GTK/Qt theme, Material fonts and cursors, Flatpak/Nix integration, and optional gaming and virtualization support.
 
 The goal is to offer a modern, responsive, "batteries included" desktop experience: there's no need to configure the window manager from scratch — VeloxOS comes with a complete, coherent, and pleasant environment out of the box.
+
+</div>
 
 <div align="center">
 
