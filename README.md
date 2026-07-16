@@ -71,11 +71,11 @@ Once downloaded, write the ISO to a USB drive and start the installation by foll
   ```
 </div>
   
-<div align="center">
-  
 Replace `/dev/sdX` with your actual USB device (not a partition, e.g. `/dev/sda`) — double-check it, as `dd` will silently overwrite the target drive.
 
 Once the flash is complete, reboot your PC and boot from the USB drive to start the VeloxOS installer.
+
+<div align="center">
 
 ## What you'll find in this repository
 
