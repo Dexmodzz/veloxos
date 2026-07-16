@@ -305,7 +305,9 @@ decibels
 dnf -y remove waybar
 
 # Remove third-party repos — packages already installed, repos cause GPG errors at ISO build time
-rm -f /etc/yum.repos.d/terra*.repo
+# Terra stays but disabled (not deleted): veloxos install --enablerepo=terra still needs it
+# at runtime for opt-in packages (e.g. lsfg-vk) not installed during this build.
+sed -i 's/^enabled=1/enabled=0/' /etc/yum.repos.d/terra*.repo
 rm -f /etc/yum.repos.d/rpmfusion*.repo
 rm -f /etc/yum.repos.d/google-chrome.repo
 rm -f /etc/yum.repos.d/edge.repo

@@ -6,12 +6,7 @@
   ],
   "transports": {
     "docker": {
-      "ghcr.io/veloxos": [
-        {
-          "type": "insecureAcceptAnything"
-        }
-      ],
-      "registry.gitlab.com/veloxos/images": [
+      "ghcr.io/dexmodzz": [
         {
           "type": "insecureAcceptAnything"
         }

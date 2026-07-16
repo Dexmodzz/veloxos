@@ -4,6 +4,8 @@ set -euo pipefail
 echo "Setting up gaming for VeloxOS..."
 
 veloxos install \
+    --enablerepo='copr:copr.fedorainfracloud.org:ilyaz:LACT' \
+    --enablerepo='copr:copr.fedorainfracloud.org:wehagy:protonplus' \
     steam \
     lutris \
     heroic-games-launcher \

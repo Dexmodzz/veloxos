@@ -95,21 +95,6 @@ build $target_image=image_name $tag=default_tag:
         --tag "${target_image}:${tag}" \
         .
 
-# Build the NVIDIA image locally (uses Containerfile.nvidia)
-[group('Build Image')]
-build-nvidia $target_image=(image_name + "-nvidia") $tag=default_tag:
-    #!/usr/bin/env bash
-    BUILD_ARGS=()
-    if [[ -z "$(git status -s)" ]]; then
-        BUILD_ARGS+=("--build-arg" "SHA_HEAD_SHORT=$(git rev-parse --short HEAD)")
-    fi
-    podman build \
-        "${BUILD_ARGS[@]}" \
-        --pull=newer \
-        --file Containerfile.nvidia \
-        --tag "${target_image}:${tag}" \
-        .
-
 [private]
 _rootful_load_image $target_image=image_name $tag=default_tag:
     #!/usr/bin/bash
@@ -169,9 +154,6 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
 [private]
 _rebuild-bib $target_image $tag $type $config: (build target_image tag) && (_build-bib target_image tag type config)
 
-[private]
-_rebuild-bib-nvidia $target_image $tag $type $config: (build-nvidia target_image tag) && (_build-bib target_image tag type config)
-
 # Build a QCOW2 virtual machine image
 [group('Build Virtual Machine Image')]
 build-qcow2 $target_image=("localhost/" + image_name) $tag=default_tag: && (_build-bib target_image tag "qcow2" "disk_config/disk.toml")
@@ -199,22 +181,6 @@ rebuild-raw $target_image=("localhost/" + image_name) $tag=default_tag: && (_reb
 # Rebuild an ISO (build container first, then ISO)
 [group('Build Virtual Machine Image')]
 rebuild-iso $target_image=("localhost/" + image_name) $tag=default_tag: && (_rebuild-bib target_image tag "iso" "disk_config/iso.toml")
-
-# Build a QCOW2 image from the NVIDIA variant
-[group('Build Virtual Machine Image')]
-build-qcow2-nvidia $target_image=("localhost/" + image_name + "-nvidia") $tag=default_tag: && (_build-bib target_image tag "qcow2" "disk_config/disk.toml")
-
-# Build an ISO from the NVIDIA variant
-[group('Build Virtual Machine Image')]
-build-iso-nvidia $target_image=("localhost/" + image_name + "-nvidia") $tag=default_tag: && (_build-bib target_image tag "iso" "disk_config/iso.toml")
-
-# Rebuild a QCOW2 from the NVIDIA variant (build container first)
-[group('Build Virtual Machine Image')]
-rebuild-qcow2-nvidia $target_image=("localhost/" + image_name + "-nvidia") $tag=default_tag: && (_rebuild-bib-nvidia target_image tag "qcow2" "disk_config/disk.toml")
-
-# Rebuild an ISO from the NVIDIA variant (build container first)
-[group('Build Virtual Machine Image')]
-rebuild-iso-nvidia $target_image=("localhost/" + image_name + "-nvidia") $tag=default_tag: && (_rebuild-bib-nvidia target_image tag "iso" "disk_config/iso.toml")
 
 [private]
 _run-vm $target_image $tag $type:

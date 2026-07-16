@@ -92,9 +92,7 @@ This repo contains everything needed to **build the VeloxOS image** (it's the di
 | `Containerfile` | bootc image definition (standard INTEL-driver NVIDIA-driver AMD-driver) work with all GPU drivers recognize at boot automatically |
 | `build_files/` | Build scripts and user configuration files (dotfiles) included in the image: niri config, DankMaterialShell, kitty, GTK, fish, etc. |
 | `system_files/` | System files copied into the image: `veloxos` binaries, systemd services, branding, policies |
-| `spec_files/` | RPM specs for extra packages built and included in the image (e.g. Cemu, Ryujinx, lsfg-vk, xpadneo) |
 | `disk_config/` | Configuration for generating disk images (qcow2, ISO, etc.) via `bootc-image-builder` |
-| `installer/` | Support files for the system installer |
 | `Justfile` | Commands to build, test, and run VeloxOS in a VM (`just build-vm`, `just run-vm`, etc.) |
 
 In short: if you want to **use** VeloxOS, download/install the ready-made image; if you want to **modify or rebuild it**, this repo is the starting point.

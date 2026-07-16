@@ -333,38 +333,6 @@ _registry_api_get() {
     fi
 }
 
-_canonicalize_repo_url() {
-    case "$1" in
-        ghcr.io/veloxos/veloxos-base|registry.gitlab.com/veloxos/images/veloxos-base)
-            echo "registry.gitlab.com/veloxos/images/veloxos-base"
-            ;;
-        ghcr.io/veloxos/veloxos-base-nvidia|registry.gitlab.com/veloxos/images/veloxos-base/nvidia)
-            echo "registry.gitlab.com/veloxos/images/veloxos-base/nvidia"
-            ;;
-        ghcr.io/veloxos/veloxos-kde|registry.gitlab.com/veloxos/images/veloxos-kde)
-            echo "registry.gitlab.com/veloxos/images/veloxos-kde"
-            ;;
-        ghcr.io/veloxos/veloxos-kde-nvidia|registry.gitlab.com/veloxos/images/veloxos-kde/nvidia)
-            echo "registry.gitlab.com/veloxos/images/veloxos-kde/nvidia"
-            ;;
-        ghcr.io/veloxos/veloxos-gnome|registry.gitlab.com/veloxos/images/veloxos-gnome)
-            echo "registry.gitlab.com/veloxos/images/veloxos-gnome"
-            ;;
-        ghcr.io/veloxos/veloxos-gnome-nvidia|registry.gitlab.com/veloxos/images/veloxos-gnome/nvidia)
-            echo "registry.gitlab.com/veloxos/images/veloxos-gnome/nvidia"
-            ;;
-        ghcr.io/veloxos/veloxos-cosmic|registry.gitlab.com/veloxos/images/veloxos-cosmic)
-            echo "registry.gitlab.com/veloxos/images/veloxos-cosmic"
-            ;;
-        ghcr.io/veloxos/veloxos-cosmic-nvidia|registry.gitlab.com/veloxos/images/veloxos-cosmic/nvidia)
-            echo "registry.gitlab.com/veloxos/images/veloxos-cosmic/nvidia"
-            ;;
-        *)
-            echo "$1"
-            ;;
-    esac
-}
-
 _registry_get_image_info() {
     # Populates globals:
     #   IMAGE_FULL ORIGINAL_REPO_URL REPO_URL REGISTRY_HOST REPO_PATH CURRENT_IMAGE_TAG CURRENT_VERSION
@@ -375,7 +343,7 @@ _registry_get_image_info() {
     IMAGE_FULL=$(echo "$bootc_status" \
         | jq -r '.status.booted.image.image.image // empty' | tr -d '[:space:]')
     ORIGINAL_REPO_URL="${IMAGE_FULL%:*}"
-    REPO_URL=$(_canonicalize_repo_url "$ORIGINAL_REPO_URL")
+    REPO_URL="$ORIGINAL_REPO_URL"
     REGISTRY_HOST="${REPO_URL%%/*}"
     REPO_PATH="${REPO_URL#${REGISTRY_HOST}/}"
     CURRENT_IMAGE_TAG="${IMAGE_FULL##*:}"
@@ -444,11 +412,6 @@ cmd_check_image() {
     echo "Channel tag:     $CHANNEL_TAG" >&2
     echo "Latest version:  $NEWEST_VERSION"  >&2
 
-    if [[ "$ORIGINAL_REPO_URL" == ghcr.io/veloxos/* ]] && [[ "$REPO_URL" != "$ORIGINAL_REPO_URL" ]]; then
-        echo "{\"update\":true,\"type\":\"switch\",\"booted\":\"$CURRENT_VERSION\",\"available\":\"$CHANNEL_TAG\",\"repo\":\"$REPO_URL\"}"
-        exit 0
-    fi
-
     # 1. New date tag available — switch to it
     if [[ "$CURRENT_DATE_TAG" =~ ^[0-9]{8}$ ]]; then
         if [[ "$NEWEST_DATE_TAG" -gt "$CURRENT_DATE_TAG" ]]; then
@@ -477,13 +440,6 @@ cmd_upgrade_image() {
 
     local IMAGE_FULL ORIGINAL_REPO_URL REPO_URL REGISTRY_HOST REPO_PATH CURRENT_IMAGE_TAG CURRENT_VERSION CHANNEL_TAG CURRENT_DATE_TAG TOKEN NEWEST_VERSION NEWEST_DATE_TAG TARGET_TAG
     _registry_get_image_info
-
-    if [[ "$ORIGINAL_REPO_URL" == ghcr.io/veloxos/* ]] && [[ "$REPO_URL" != "$ORIGINAL_REPO_URL" ]]; then
-        echo "VeloxOS: migrating legacy GHCR image to GitLab channel $REPO_URL:$CHANNEL_TAG..."
-        bootc switch "$REPO_URL:$CHANNEL_TAG"
-        echo "VeloxOS: system image update staged. Reboot to apply."
-        exit 0
-    fi
 
     # 1. New date tag — switch to it
     if [[ "$CURRENT_DATE_TAG" =~ ^[0-9]{8}$ ]] \
