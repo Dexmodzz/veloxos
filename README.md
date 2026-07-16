@@ -17,7 +17,7 @@
 
 </div>
 
-<h3 align="center">VeloxOS — a fast, ready-to-use Fedora bootc distro</h3>
+<h3 align="center">🚀VeloxOS — a fast, ready-to-use Fedora bootc distro</h3>
 
 <p align="center">
   Built by <b>Dexmodzz</b> · based on <b>Fedora Atomic (bootc)</b> · desktop <b>niri</b> + <b>DankMaterialShell</b>
@@ -59,7 +59,7 @@ Once downloaded, write the ISO to a USB drive and start the installation by foll
 
 <div align="center">
 
-### Creating a bootable USB drive
+### 💾Creating a bootable USB drive
 
 </div>
 
