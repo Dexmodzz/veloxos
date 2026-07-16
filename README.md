@@ -29,9 +29,13 @@ VeloxOS is a custom Linux image based on **Fedora Atomic (bootc)**: the operatin
 
 On top of this base, VeloxOS ships already configured and ready to use:
 
+</div>
+
 - **[niri](https://github.com/YaLTeR/niri)** — a fast, minimal scrollable-tiling window manager for Wayland.
 - **[DankMaterialShell (DMS)](https://github.com/AvengeMedia/DankMaterialShell)** — a Material Design desktop shell (bar, launcher, notifications, panels) built on Quickshell.
 - Pre-configured apps and tools: **kitty** terminal, **Thunar** file manager, a consistent GTK/Qt theme, Material fonts and cursors, Flatpak/Nix integration, and optional gaming and virtualization support.
+
+<div align="center">
 
 The goal is to offer a modern, responsive, "batteries included" desktop experience: there's no need to configure the window manager from scratch — VeloxOS comes with a complete, coherent, and pleasant environment out of the box.
 
