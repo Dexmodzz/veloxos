@@ -33,6 +33,8 @@ On top of this base, VeloxOS ships already configured and ready to use:
 
 The goal is to offer a modern, responsive, "batteries included" desktop experience: there's no need to configure the window manager from scratch — VeloxOS comes with a complete, coherent, and pleasant environment out of the box.
 
+<div align="center">
+
 ## 📥 Download
 
 You can download the ready-made VeloxOS ISO image here:
@@ -63,7 +65,7 @@ This repo contains everything needed to **build the VeloxOS image** (it's the di
 
 | Path | Contents |
 |---|---|
-| `Containerfile`, `Containerfile.nvidia` | bootc image definition (standard and NVIDIA-driver variant) |
+| `Containerfile` | bootc image definition (standard and NVIDIA-driver variant) |
 | `build_files/` | Build scripts and user configuration files (dotfiles) included in the image: niri config, DankMaterialShell, kitty, GTK, fish, etc. |
 | `system_files/` | System files copied into the image: `veloxos` binaries, systemd services, branding, policies |
 | `spec_files/` | RPM specs for extra packages built and included in the image (e.g. Cemu, Ryujinx, lsfg-vk, xpadneo) |
