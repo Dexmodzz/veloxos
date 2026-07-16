@@ -57,6 +57,8 @@ Once downloaded, write the ISO to a USB drive and start the installation by foll
 
 ### Creating a bootable USB drive
 
+</div>
+
 - **[Rufus](https://rufus.ie/) (Windows)** — open Rufus, select your USB drive, choose the downloaded VeloxOS ISO as the boot selection, and click **Start** to write it to the drive.
 - **[BalenaEtcher](https://etcher.balena.io/) (Linux/Windows)** — open BalenaEtcher, click **Flash from file** and select the VeloxOS ISO, choose your USB drive as the target, then click **Flash** to write it.
 - **`dd` (Linux/macOS)** — from a terminal, first list your drives to find the USB device:
@@ -67,6 +69,8 @@ Once downloaded, write the ISO to a USB drive and start the installation by foll
   ```
   sudo dd if=veloxos.iso of=/dev/sdX bs=4M status=progress conv=fsync
   ```
+</div>
+  
 <div align="center">
   
 Replace `/dev/sdX` with your actual USB device (not a partition, e.g. `/dev/sda`) — double-check it, as `dd` will silently overwrite the target drive.
