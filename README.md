@@ -43,6 +43,8 @@ You can download the ready-made VeloxOS ISO image here:
 
 Once downloaded, write the ISO to a USB drive and start the installation by following the Anaconda setup wizard.
 
+</div>
+
 ### Creating a bootable USB drive
 
 - **[Rufus](https://rufus.ie/) (Windows)** — open Rufus, select your USB drive, choose the downloaded VeloxOS ISO as the boot selection, and click **Start** to write it to the drive.
