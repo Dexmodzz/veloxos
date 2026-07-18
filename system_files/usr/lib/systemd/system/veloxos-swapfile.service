@@ -2,7 +2,7 @@
 Description=VeloxOS Swapfile Setup (16G, fisso)
 Documentation=https://veloxos.org
 After=local-fs.target
-ConditionPathExists=!/swapfile
+ConditionPathExists=!/var/swapfile
 
 [Service]
 Type=oneshot

@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # veloxos-swapfile — crea uno swapfile di sistema da 16G al primo boot.
 # Risorsa di sistema (non per-utente): eseguito da veloxos-swapfile.service
-# come root. La condizione ConditionPathExists=!/swapfile nell'unit garantisce
-# che questo script giri una sola volta nella vita dell'installazione.
+# come root. La condizione ConditionPathExists=!/var/swapfile nell'unit
+# garantisce che questo script giri una sola volta nella vita dell'installazione.
+# Lo swapfile vive in /var/swapfile e non in /swapfile perché su Fedora
+# Atomic/bootc la root (/) è montata read-only (subvol=root,...,ro in fstab),
+# mentre /var è il subvolume scrivibile e persistente.
 set -euo pipefail
 
-SWAPFILE="/swapfile"
+SWAPFILE="/var/swapfile"
 SIZE_MB=16384  # 16G fisso e hardcoded — nessun calcolo su RAM, nessuna euristica
 
 echo "veloxos-swapfile: creazione di ${SWAPFILE} (16G fissi)"
@@ -35,11 +38,11 @@ echo "veloxos-swapfile: swapfile attivo (16G)"
 # altra modifica locale a /etc.
 FSTAB="/etc/fstab"
 if [ -w "$FSTAB" ]; then
-    if ! grep -qE '^/swapfile[[:space:]]' "$FSTAB" 2>/dev/null; then
-        echo "/swapfile none swap sw 0 0" >> "$FSTAB"
+    if ! grep -qE '^/var/swapfile[[:space:]]' "$FSTAB" 2>/dev/null; then
+        echo "/var/swapfile none swap sw 0 0" >> "$FSTAB"
         echo "veloxos-swapfile: riga aggiunta a $FSTAB"
     else
-        echo "veloxos-swapfile: $FSTAB contiene già una riga per /swapfile, nessuna modifica"
+        echo "veloxos-swapfile: $FSTAB contiene già una riga per /var/swapfile, nessuna modifica"
     fi
 else
     echo "veloxos-swapfile: ERRORE — $FSTAB non è scrivibile, swap non persistente tra i boot" >&2
