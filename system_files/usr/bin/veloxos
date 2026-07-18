@@ -16,7 +16,7 @@ case "$COMMAND" in
         shift
         /usr/libexec/veloxos/veloxos-remove "$@"
     ;;
-    system-upgrade)
+    upgrade)
         shift
         /usr/libexec/veloxos/veloxos-updater "$@"
     ;;
@@ -50,7 +50,7 @@ case "$COMMAND" in
         echo "  veloxos update                        Update packages via overlay"
         echo "  veloxos remove <package> [pkg2...]    Remove packages from overlay"
         echo "  veloxos list                          List overlay installed packages"
-        echo "  veloxos system-upgrade                Check for and Apply system image upgrades"
+        echo "  veloxos upgrade                        Check for and Apply system image upgrades"
         echo "  veloxos reset-overlay --confirm       Wipe overlay and all installed packages
   veloxos reset-overlay --soft          Soft reset: rebuild overlay, preserve packages.list"
         echo "  veloxos setup-gaming                  Set up native gaming packages along with some apps from flathub"
