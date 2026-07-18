@@ -45,13 +45,13 @@ _update_modified_base_list() {
 }
 
 if [[ "${#PACKAGES[@]}" -eq 0 ]]; then
-    echo "Usage: veloxos install <package> [package2] [package3]..."
+    echo "Usage: velox install <package> [package2] [package3]..."
     exit 1
 fi
 
 # Must run as root
 if [[ "$EUID" -ne 0 ]]; then
-    echo "ERROR: veloxos install must be run as root"
+    echo "ERROR: velox install must be run as root"
     exit 1
 fi
 

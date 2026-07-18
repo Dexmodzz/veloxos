@@ -6,7 +6,7 @@ echo "Setting up LSFG-VK (native + Flatpak support)..."
 # -------------------------------
 # Native LSFG install
 # -------------------------------
-veloxos install --enablerepo=terra lsfg-vk
+velox install --enablerepo=terra lsfg-vk
 
 # -------------------------------
 # Flatpak Vulkan layers

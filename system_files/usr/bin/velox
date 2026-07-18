@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -e
+
+COMMAND="${1:-}"
+
+case "$COMMAND" in
+    install)
+        shift
+        /usr/libexec/veloxos/veloxos-install "$@"
+    ;;
+    update)
+        shift
+        /usr/libexec/veloxos/veloxos-update "$@"
+    ;;
+    remove)
+        shift
+        /usr/libexec/veloxos/veloxos-remove "$@"
+    ;;
+    upgrade)
+        shift
+        /usr/libexec/veloxos/veloxos-updater "$@"
+    ;;
+    list)
+        /usr/libexec/veloxos/veloxos-list
+    ;;
+    reset-overlay)
+        shift
+        /usr/libexec/veloxos/veloxos-reset-overlay "$@"
+    ;;
+    setup-gaming)
+        /usr/libexec/veloxos/setup-gaming
+    ;;
+    setup-virtualization)
+        /usr/libexec/veloxos/setup-virtualization
+    ;;
+    setup-lsfg-vk)
+        /usr/libexec/veloxos/setup-lsfg-vk
+    ;;
+    setup-stoat)
+        /usr/libexec/veloxos/setup-stoat
+    ;;
+    setup-ollama)
+        /usr/libexec/veloxos/setup-ollama
+    ;;
+    *)
+        echo "VeloxOS Helper"
+        echo ""
+        echo "Usage:"
+        echo "  velox install <package> [pkg2...]   Install packages via overlay"
+        echo "  velox update                        Update packages via overlay"
+        echo "  velox remove <package> [pkg2...]    Remove packages from overlay"
+        echo "  velox list                          List overlay installed packages"
+        echo "  velox upgrade                       Check for and Apply system image upgrades"
+        echo "  velox reset-overlay --confirm       Wipe overlay and all installed packages
+  velox reset-overlay --soft          Soft reset: rebuild overlay, preserve packages.list"
+        echo "  velox setup-gaming                  Set up native gaming packages along with some apps from flathub"
+        echo "  velox setup-virtualization          Set up KVM/QEMU virtualization"
+        echo "  velox setup-lsfg-vk                 Set up Lossless Scaling Frame Gen"
+        echo "  velox setup-stoat                   Set up Stoat"
+        echo "  velox setup-ollama                  Set up Ollama local AI"
+        exit 1
+    ;;
+esac

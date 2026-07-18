@@ -99,7 +99,7 @@ In short: if you want to **use** VeloxOS, download/install the ready-made image;
 
 <div align="center">
 
-## 🛠️ The `veloxos` command
+## 🛠️ The `velox` command
 
 The system includes a terminal helper for managing extra packages and optional features without touching the immutable base:
 
@@ -107,18 +107,18 @@ The system includes a terminal helper for managing extra packages and optional f
 
 | Command | Description |
 |---|---|
-| `veloxos install <package...>` | Install extra packages via overlay |
-| `veloxos update` | Update overlay-installed packages |
-| `veloxos remove <package...>` | Remove packages from the overlay |
-| `veloxos list` | List overlay-installed packages |
-| `veloxos upgrade` | Check for and apply system image upgrades |
-| `veloxos reset-overlay --confirm` | Wipe the overlay and all installed packages |
-| `veloxos reset-overlay --soft` | Rebuild the overlay while preserving the package list |
-| `veloxos setup-gaming` | Set up native gaming packages plus some Flathub apps |
-| `veloxos setup-virtualization` | Set up KVM/QEMU virtualization |
-| `veloxos setup-lsfg-vk` | Set up Lossless Scaling Frame Generation |
-| `veloxos setup-stoat` | Set up Stoat |
-| `veloxos setup-ollama` | Set up Ollama for local AI |
+| `velox install <package...>` | Install extra packages via overlay |
+| `velox update` | Update overlay-installed packages |
+| `velox remove <package...>` | Remove packages from the overlay |
+| `velox list` | List overlay-installed packages |
+| `velox upgrade` | Check for and apply system image upgrades |
+| `velox reset-overlay --confirm` | Wipe the overlay and all installed packages |
+| `velox reset-overlay --soft` | Rebuild the overlay while preserving the package list |
+| `velox setup-gaming` | Set up native gaming packages plus some Flathub apps |
+| `velox setup-virtualization` | Set up KVM/QEMU virtualization |
+| `velox setup-lsfg-vk` | Set up Lossless Scaling Frame Generation |
+| `velox setup-stoat` | Set up Stoat |
+| `velox setup-ollama` | Set up Ollama for local AI |
 
 <div align="center">
 
@@ -170,8 +170,8 @@ The **Mod** key defaults to the **Super/Windows** key.
 
 1. Download/install the VeloxOS (bootc) image following the project's instructions.
 2. On first boot you'll already have: the niri + DankMaterialShell desktop, kitty terminal, Thunar file manager, and a consistent Material theme.
-3. **Recommended after installation:** the ISO is a snapshot from a specific date, so fixes and improvements published after it was built (e.g. the system-wide swapfile setup) are not included yet. Run `sudo veloxos upgrade` — the built-in VeloxOS command that checks the registry for a newer image, stages it via `bootc`, and prompts you to reboot to apply it. A plain `sudo bootc upgrade` works too, but `veloxos upgrade` also handles switching to a newer tag if the channel has moved, not just content updates on the current tag.
-4. Use the `veloxos` command in the terminal to install extra packages, update the system, or enable optional features (gaming, virtualization, local AI).
+3. **Recommended after installation:** the ISO is a snapshot from a specific date, so fixes and improvements published after it was built (e.g. the system-wide swapfile setup) are not included yet. Run `sudo velox upgrade` — the built-in VeloxOS command that checks the registry for a newer image, stages it via `bootc`, and prompts you to reboot to apply it. A plain `sudo bootc upgrade` works too, but `velox upgrade` also handles switching to a newer tag if the channel has moved, not just content updates on the current tag.
+4. Use the `velox` command in the terminal to install extra packages, update the system, or enable optional features (gaming, virtualization, local AI).
 5. To build the image from this repo, check the `Justfile` (`just --list` for the full list of available commands).
 
 ## 🔗 Useful links

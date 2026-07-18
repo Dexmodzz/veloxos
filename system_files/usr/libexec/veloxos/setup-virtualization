@@ -3,7 +3,7 @@ set -e
 
 echo "Setting up virtualization for VeloxOS..."
 
-veloxos install \
+velox install \
     libvirt-daemon-config-network \
     libvirt-daemon-kvm \
     qemu-kvm \
