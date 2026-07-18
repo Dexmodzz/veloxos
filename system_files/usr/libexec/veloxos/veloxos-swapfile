@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# veloxos-swapfile — crea uno swapfile di sistema da 16G al primo boot.
+# Risorsa di sistema (non per-utente): eseguito da veloxos-swapfile.service
+# come root. La condizione ConditionPathExists=!/swapfile nell'unit garantisce
+# che questo script giri una sola volta nella vita dell'installazione.
+set -euo pipefail
+
+SWAPFILE="/swapfile"
+SIZE_MB=16384  # 16G fisso e hardcoded — nessun calcolo su RAM, nessuna euristica
+
+echo "veloxos-swapfile: creazione di ${SWAPFILE} (16G fissi)"
+
+# 1) File vuoto
+: > "$SWAPFILE"
+
+# 2) Copy-on-write OFF prima di allocare qualunque blocco: su btrfs chattr +C
+#    ha effetto solo su file vuoti, quindi va applicato qui e non dopo il dd.
+#    Su ext4/xfs è un no-op innocuo: eseguito comunque, senza controllare il fs.
+chattr +C "$SWAPFILE" || true
+
+# 3) Allocazione dello spazio con dd: fallocate può produrre swapfile non
+#    validi su btrfs, dd funziona su qualunque filesystem.
+dd if=/dev/zero of="$SWAPFILE" bs=1M count="$SIZE_MB"
+
+chmod 600 "$SWAPFILE"
+mkswap "$SWAPFILE"
+swapon "$SWAPFILE"
+
+echo "veloxos-swapfile: swapfile attivo (16G)"
+
+# Persistenza in /etc/fstab.
+# Su Fedora Atomic /etc è gestito da rpm-ostree/bootc come merge per-deployment
+# (3-way merge tra /usr/etc di default e le modifiche locali su /etc), quindi è
+# scrivibile a runtime e le modifiche sopravvivono agli upgrade come qualunque
+# altra modifica locale a /etc.
+FSTAB="/etc/fstab"
+if [ -w "$FSTAB" ]; then
+    if ! grep -qE '^/swapfile[[:space:]]' "$FSTAB" 2>/dev/null; then
+        echo "/swapfile none swap sw 0 0" >> "$FSTAB"
+        echo "veloxos-swapfile: riga aggiunta a $FSTAB"
+    else
+        echo "veloxos-swapfile: $FSTAB contiene già una riga per /swapfile, nessuna modifica"
+    fi
+else
+    echo "veloxos-swapfile: ERRORE — $FSTAB non è scrivibile, swap non persistente tra i boot" >&2
+    exit 1
+fi
+
+echo "veloxos-swapfile: completato."

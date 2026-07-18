@@ -1,0 +1,13 @@
+[Unit]
+Description=VeloxOS Swapfile Setup (16G, fisso)
+Documentation=https://veloxos.org
+After=local-fs.target
+ConditionPathExists=!/swapfile
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/veloxos/veloxos-swapfile
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
