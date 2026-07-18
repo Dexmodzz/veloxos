@@ -46,18 +46,18 @@ case "$COMMAND" in
         echo "VeloxOS Helper"
         echo ""
         echo "Usage:"
-        echo "  velox install <package> [pkg2...]   Install packages via overlay"
-        echo "  velox update                        Update packages via overlay"
-        echo "  velox remove <package> [pkg2...]    Remove packages from overlay"
-        echo "  velox list                          List overlay installed packages"
-        echo "  velox upgrade                       Check for and Apply system image upgrades"
-        echo "  velox reset-overlay --confirm       Wipe overlay and all installed packages
-  velox reset-overlay --soft          Soft reset: rebuild overlay, preserve packages.list"
-        echo "  velox setup-gaming                  Set up native gaming packages along with some apps from flathub"
-        echo "  velox setup-virtualization          Set up KVM/QEMU virtualization"
-        echo "  velox setup-lsfg-vk                 Set up Lossless Scaling Frame Gen"
-        echo "  velox setup-stoat                   Set up Stoat"
-        echo "  velox setup-ollama                  Set up Ollama local AI"
+        echo "  sudo velox install <package> [pkg2...]   Install packages via overlay"
+        echo "  sudo velox update                        Update packages via overlay"
+        echo "  sudo velox remove <package> [pkg2...]    Remove packages from overlay"
+        echo "  sudo velox list                          List overlay installed packages"
+        echo "  sudo velox upgrade                       Check for and Apply system image upgrades"
+        echo "  sudo velox reset-overlay --confirm       Wipe overlay and all installed packages
+        echo "  sudo velox reset-overlay --soft          Soft reset: rebuild overlay, preserve packages.list"
+        echo "  sudo velox setup-gaming                  Set up native gaming packages along with some apps from flathub"
+        echo "  sudo velox setup-virtualization          Set up KVM/QEMU virtualization"
+        echo "  sudo velox setup-lsfg-vk                 Set up Lossless Scaling Frame Gen"
+        echo "  sudo velox setup-stoat                   Set up Stoat"
+        echo "  sudo velox setup-ollama                  Set up Ollama local AI"
         exit 1
     ;;
 esac

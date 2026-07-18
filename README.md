@@ -107,18 +107,18 @@ The system includes a terminal helper for managing extra packages and optional f
 
 | Command | Description |
 |---|---|
-| `velox install <package...>` | Install extra packages via overlay |
-| `velox update` | Update overlay-installed packages |
-| `velox remove <package...>` | Remove packages from the overlay |
-| `velox list` | List overlay-installed packages |
-| `velox upgrade` | Check for and apply system image upgrades |
-| `velox reset-overlay --confirm` | Wipe the overlay and all installed packages |
-| `velox reset-overlay --soft` | Rebuild the overlay while preserving the package list |
-| `velox setup-gaming` | Set up native gaming packages plus some Flathub apps |
-| `velox setup-virtualization` | Set up KVM/QEMU virtualization |
-| `velox setup-lsfg-vk` | Set up Lossless Scaling Frame Generation |
-| `velox setup-stoat` | Set up Stoat |
-| `velox setup-ollama` | Set up Ollama for local AI |
+| `sudo velox install <package...>` | Install extra packages via overlay |
+| `sudo velox update` | Update overlay-installed packages |
+| `sudo velox remove <package...>` | Remove packages from the overlay |
+| `sudo velox list` | List overlay-installed packages |
+| `sudo velox upgrade` | Check for and apply system image upgrades |
+| `sudo velox reset-overlay --confirm` | Wipe the overlay and all installed packages |
+| `sudo velox reset-overlay --soft` | Rebuild the overlay while preserving the package list |
+| `sudo velox setup-gaming` | Set up native gaming packages plus some Flathub apps |
+| `sudo velox setup-virtualization` | Set up KVM/QEMU virtualization |
+| `sudo velox setup-lsfg-vk` | Set up Lossless Scaling Frame Generation |
+| `sudo velox setup-stoat` | Set up Stoat |
+| `sudo velox setup-ollama` | Set up Ollama for local AI |
 
 <div align="center">
 
