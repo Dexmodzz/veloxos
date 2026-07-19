@@ -109,6 +109,11 @@ EOF
 
 echo "protected-packages.txt ready ($(grep -c '^[^#]' "$PROTECTED_FILE") packages)."
 
+# Generate base-packages.txt, base-manifest.txt and dnf.conf from protected-packages.txt.
+# Required by velox install/update/remove — without this, /usr/share/veloxos/dnf.conf
+# never exists and every velox command fails.
+/usr/libexec/veloxos/generate-base-manifest
+
 # Hide unwanted .desktop entries from launcher
 rm -f \
     /usr/share/applications/thunar-settings.desktop \
