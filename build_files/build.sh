@@ -300,7 +300,6 @@ gnome-photos \
 gnome-text-editor \
 gnome-system-monitor \
 gnome-connections \
-loupe \
 snapshot \
 papers \
 decibels
