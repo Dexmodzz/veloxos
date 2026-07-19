@@ -28,7 +28,7 @@ COMMAND="${1:-upgrade}"
 
 die() { echo "ERROR: $*" >&2; exit 1; }
 
-dnf() { dnf5.real --config="$DNF_CONF" "$@"; }
+dnf() { dnf5 --config="$DNF_CONF" "$@"; }
 
 # Return user-installed package names from packages.list (empty-safe).
 get_user_packages() {

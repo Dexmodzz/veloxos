@@ -92,7 +92,7 @@ if [[ "$IS_LIVE" != "true" ]] && ! findmnt /usr | grep -q overlay; then
 fi
 
 # Remove live from overlay
-dnf5.real remove -y --config="/usr/share/veloxos/dnf.conf" "${TO_REMOVE[@]}" || echo "Warning: dnf5.real remove returned non-zero, may already be gone."
+dnf5 remove -y --config="/usr/share/veloxos/dnf.conf" "${TO_REMOVE[@]}" || echo "Warning: dnf5 remove returned non-zero, may already be gone."
 
 # Remove each from the appropriate list and clean up local RPM cache if applicable
 for pkg in "${TO_REMOVE[@]}"; do

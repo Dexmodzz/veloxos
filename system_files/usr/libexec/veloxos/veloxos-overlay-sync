@@ -52,7 +52,7 @@ _install_local_rpms() {
     done < "$LOCAL_RPM_LIST"
     if [[ ${#rpms_to_install[@]} -gt 0 ]]; then
         echo "VeloxOS overlay sync: reinstalling ${#rpms_to_install[@]} local RPM(s)..."
-        dnf5.real install -y --config="/usr/share/veloxos/dnf.conf" "${rpms_to_install[@]}"
+        dnf5 install -y --config="/usr/share/veloxos/dnf.conf" "${rpms_to_install[@]}"
     fi
 }
 
@@ -498,7 +498,7 @@ if [[ "$IS_LIVE" == "true" ]]; then
         _plymsg "Setting up live environment..."
         _import_terra_keys
         _ensure_packages_toml
-        dnf5.real install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
+        dnf5 install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
             "${PACKAGES[@]}"
         _install_local_rpms
         rm -f "$DIRTY_FILE"
@@ -580,7 +580,7 @@ if [[ "$STATE_MISSING" == "true" ]] || [[ "$OVERLAY_HAS_CONTENT" == "false" ]]; 
     _import_terra_keys
     _ensure_packages_toml
     _plymsg "Installing default applications..."
-    dnf5.real install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
+    dnf5 install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
         "${PACKAGES[@]}"
     _install_local_rpms
     _update_modified_base_list
@@ -605,7 +605,7 @@ elif [[ -f "$DIRTY_FILE" ]]; then
     echo "VeloxOS overlay sync: package changes detected — syncing..."
     _plymsg "Wiping overlay and reinstalling user applications..."
     _ensure_packages_toml
-    dnf5.real install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
+    dnf5 install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
         "${PACKAGES[@]}"
     _install_local_rpms
     _update_modified_base_list

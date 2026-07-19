@@ -136,12 +136,12 @@ if [[ "$IS_LIVE" != "true" ]] && ! findmnt /usr | grep -q overlay; then
 fi
 
 # Install into overlay — excludes base packages from dep resolution
-dnf5.real install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
+dnf5 install -y --refresh --config="/usr/share/veloxos/dnf.conf" \
     "${TO_INSTALL_ARGS[@]}"
 
 # Mark newly installed packages as user so PackageKit can manage them
 for pkg in "${TO_INSTALL_NAMES[@]}"; do
-    dnf5.real -y mark user "$pkg" || true
+    dnf5 -y mark user "$pkg" || true
 done
 
 # Write installed packages to the appropriate list:
