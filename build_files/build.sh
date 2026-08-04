@@ -184,6 +184,7 @@ cat > /usr/share/xdg-desktop-portal/niri-portals.conf << 'EOF'
 default=gnome;gtk;
 org.freedesktop.impl.portal.Access=gtk;
 org.freedesktop.impl.portal.Notification=gtk;
+org.freedesktop.impl.portal.FileChooser=gtk;
 org.freedesktop.impl.portal.Secret=gnome-keyring;
 EOF
 
@@ -289,7 +290,7 @@ pipewire \
 pipewire-pulseaudio \
 pipewire-utils \
 wireplumber \
-gstreamer1-plugin-pipewire
+pipewire-gstreamer
 
 # Abilita di default i servizi user di PipeWire/WirePlumber per tutti gli
 # utenti (equivalente a un preset globale: gli scriptlet RPM non riescono ad
