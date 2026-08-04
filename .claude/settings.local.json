@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod 755 /var/home/nicola/veloxos/system_files/usr/libexec/veloxos/veloxos-swapfile)",
+      "Bash(bash -n /var/home/nicola/veloxos/system_files/usr/libexec/veloxos/veloxos-swapfile)",
+      "Bash(git add *)",
+      "Bash(git status *)",
+      "Read(//etc/**)",
+      "Bash(rpm-ostree status *)",
+      "Bash(bootc status *)",
+      "Bash(git fetch *)",
+      "Bash(bash -n /var/home/nicola/veloxos/system_files/usr/bin/veloxos)",
+      "Bash(find / -xdev -iname \"*veloxos-swapfile*\")",
+      "Bash(find / -xdev -iname \"veloxos-swapfile\" -o -iname \"*swapfile*\")",
+      "WebFetch(domain:yalter.github.io)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(bash -n build_files/build.sh)"
+    ]
+  }
+}

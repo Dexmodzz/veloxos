@@ -172,6 +172,20 @@ dnf5 -y install codium
 # Niri
 dnf5 -y install niri
 
+# Portal routing per niri: niri implementa l'interfaccia D-Bus di Mutter per
+# ScreenCast, quindi xdg-desktop-portal-gnome (non -wlr) è il backend che la
+# gestisce, senza bisogno di GNOME Shell in esecuzione. xdg-desktop-portal-wlr
+# resta installato solo per tool che parlano direttamente i protocolli wlr,
+# ma non serve per lo screencast via portal (RustDesk, OBS, browser).
+# Config identica a quella ufficiale di niri (resources/niri-portals.conf).
+mkdir -p /usr/share/xdg-desktop-portal
+cat > /usr/share/xdg-desktop-portal/niri-portals.conf << 'EOF'
+[preferred]
+default=gnome;gtk;
+org.freedesktop.impl.portal.Access=gtk;
+org.freedesktop.impl.portal.Notification=gtk;
+org.freedesktop.impl.portal.Secret=gnome-keyring;
+EOF
 
 # DMS shell
 curl --output-dir "/etc/yum.repos.d/" \
@@ -265,7 +279,24 @@ power-profiles-daemon.service \
 NetworkManager \
 wpa_supplicant
 
-dnf5 -y install xdg-desktop-portal-wlr xdg-desktop-portal-gtk
+# PipeWire: audio + backend di cattura schermo per xdg-desktop-portal,
+# richiesto da RustDesk/OBS/browser per lo screenshare su Wayland.
+dnf5 -y install \
+xdg-desktop-portal-wlr \
+xdg-desktop-portal-gtk \
+xdg-desktop-portal \
+pipewire \
+pipewire-pulseaudio \
+pipewire-utils \
+wireplumber \
+gstreamer1-plugin-pipewire
+
+# Abilita di default i servizi user di PipeWire/WirePlumber per tutti gli
+# utenti (equivalente a un preset globale: gli scriptlet RPM non riescono ad
+# abilitare servizi user in modo affidabile durante la build in container).
+ln -sf /usr/lib/systemd/user/pipewire.service /usr/lib/systemd/user/default.target.wants/pipewire.service
+ln -sf /usr/lib/systemd/user/pipewire-pulse.service /usr/lib/systemd/user/default.target.wants/pipewire-pulse.service
+ln -sf /usr/lib/systemd/user/wireplumber.service /usr/lib/systemd/user/default.target.wants/wireplumber.service
 
 # Remove unwanted packages
 dnf5 -y remove \
@@ -286,7 +317,6 @@ gnome-tour \
 gnome-software \
 pinentry-gnome3 \
 gnome-srpm-macros \
-xdg-desktop-portal-gnome \
 nautilus \
 totem \
 eog \
