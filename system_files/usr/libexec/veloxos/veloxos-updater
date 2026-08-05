@@ -19,11 +19,6 @@ CURRENT_IMAGE_TAG="${IMAGE_FULL##*:}"
 # Get current version field e.g. "latest.20260805.12" or "staging.20260805.3"
 CURRENT_VERSION=$(echo "$BOOTC_STATUS" | jq -r '.status.booted.image.version // empty' | tr -d '[:space:]')
 
-# Digest of the currently booted image — the source of truth for "is there
-# an update", since tag names (esp. same-day dated tags) can collide across
-# multiple builds and registries may cache manifest responses per tag.
-CURRENT_DIGEST=$(echo "$BOOTC_STATUS" | jq -r '.status.booted.image.imageDigest // empty' | tr -d '[:space:]')
-
 if [[ -z "$REPO_URL" ]]; then
     echo "ERROR: Could not detect booted image from bootc status."
     exit 1
@@ -36,11 +31,6 @@ fi
 
 if [[ -z "$CURRENT_VERSION" ]]; then
     echo "ERROR: Could not detect current version from bootc status."
-    exit 1
-fi
-
-if [[ -z "$CURRENT_DIGEST" ]]; then
-    echo "ERROR: Could not detect current image digest from bootc status."
     exit 1
 fi
 
@@ -58,7 +48,6 @@ echo "Current image repo: $REPO_URL"
 echo "Original image repo: $ORIGINAL_REPO_URL"
 echo "Current image tag:  $CURRENT_IMAGE_TAG"
 echo "Current version:    $CURRENT_VERSION"
-echo "Current digest:     $CURRENT_DIGEST"
 echo "Channel tag:        $CHANNEL_TAG"
 
 # -------------------------------
@@ -112,31 +101,18 @@ fi
 rm -f "$HEADERS_FILE"
 
 # -------------------------------
-# Fetch the channel manifest — its Docker-Content-Digest header is the
-# actual current digest of the channel tag (e.g. "latest") on the
-# registry, and is what decides whether an update is available. Reading
-# it fresh here (rather than trusting a cached tag/date comparison) is
-# what makes same-day rebuilds detectable even when a CDN/registry caches
-# manifest responses per tag name.
+# Fetch the channel manifest (e.g. tag "latest") to read its version
+# annotation — that's where the build's progressive number lives.
 # -------------------------------
-MANIFEST_HEADERS=$(mktemp)
 if [[ -n "$TOKEN" ]]; then
-    LATEST_MANIFEST=$(curl -fsSL -D "$MANIFEST_HEADERS" \
+    LATEST_MANIFEST=$(curl -fsSL \
         -H "Authorization: Bearer $TOKEN" \
         -H "Accept: application/vnd.oci.image.manifest.v1+json" \
         "https://${REGISTRY_HOST}/v2/${REPO_PATH}/manifests/${CHANNEL_TAG}")
 else
-    LATEST_MANIFEST=$(curl -fsSL -D "$MANIFEST_HEADERS" \
+    LATEST_MANIFEST=$(curl -fsSL \
         -H "Accept: application/vnd.oci.image.manifest.v1+json" \
         "https://${REGISTRY_HOST}/v2/${REPO_PATH}/manifests/${CHANNEL_TAG}")
-fi
-
-REMOTE_DIGEST=$(awk 'BEGIN{IGNORECASE=1} /^docker-content-digest:/ {sub(/\r$/,""); sub(/^[^:]*:[[:space:]]*/,""); print; exit}' "$MANIFEST_HEADERS")
-rm -f "$MANIFEST_HEADERS"
-
-# Fallback for registries that omit the header: hash the manifest body.
-if [[ -z "$REMOTE_DIGEST" ]]; then
-    REMOTE_DIGEST="sha256:$(printf '%s' "$LATEST_MANIFEST" | sha256sum | awk '{print $1}')"
 fi
 
 # Try manifest-level annotations first
@@ -174,19 +150,42 @@ TARGET_TAG="${CHANNEL_TAG}.${NEWEST_TAG}"
 
 echo "Latest version on registry: $VERSION_ANNOTATION"
 echo "Latest target tag:      $TARGET_TAG"
-echo "Remote digest:           $REMOTE_DIGEST"
 
 # -------------------------------
-# Compare digests — this is the actual "is there an update" gate. Tag
-# names (even dated ones) can collide across same-day builds, so only the
-# digest is trusted here.
+# Parse the progressive build number out of "<channel>.<YYYYMMDD>.<run>".
+# Deployments still on the older "<channel>.<YYYYMMDD>" format (no run
+# number) parse as build 0, which is always older than any new build.
 # -------------------------------
-if [[ "$REMOTE_DIGEST" == "$CURRENT_DIGEST" ]]; then
-    echo "Already up to date (digest match) — nothing to do."
+CURRENT_SUFFIX="${CURRENT_VERSION#${CHANNEL_TAG}.}"
+if [[ "$CURRENT_SUFFIX" =~ ^[0-9]{8}\.([0-9]+)$ ]]; then
+    CURRENT_BUILD="${BASH_REMATCH[1]}"
+else
+    CURRENT_BUILD=0
+fi
+
+if [[ "$NEWEST_TAG" =~ ^[0-9]{8}\.([0-9]+)$ ]]; then
+    NEWEST_BUILD="${BASH_REMATCH[1]}"
+else
+    echo "ERROR: Registry version '$VERSION_ANNOTATION' has no progressive build number."
+    exit 1
+fi
+
+echo "Current build number: $CURRENT_BUILD"
+echo "Newest build number:  $NEWEST_BUILD"
+
+# -------------------------------
+# Compare build numbers — this is the actual "is there an update" gate.
+# github.run_number is strictly increasing across the whole workflow, so
+# unlike a dated tag (which several same-day builds can share) it never
+# collides and never goes backwards, and unlike a registry digest lookup
+# it doesn't depend on any header/caching behavior on the registry side.
+# -------------------------------
+if [[ "$NEWEST_BUILD" -le "$CURRENT_BUILD" ]]; then
+    echo "Already up to date (build $CURRENT_BUILD) — nothing to do."
     exit 0
 fi
 
-echo "New content available (digest changed) — current: $CURRENT_DIGEST, remote: $REMOTE_DIGEST"
+echo "New build available: $NEWEST_BUILD (current: $CURRENT_BUILD)"
 
 if [[ "$TARGET_TAG" != "$CURRENT_IMAGE_TAG" ]]; then
     echo "New image tag $TARGET_TAG (current: $CURRENT_IMAGE_TAG) — switching..."
