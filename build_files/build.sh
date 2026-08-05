@@ -285,6 +285,7 @@ wpa_supplicant
 dnf5 -y install \
 xdg-desktop-portal-wlr \
 xdg-desktop-portal-gtk \
+xdg-desktop-portal-gnome \
 xdg-desktop-portal \
 pipewire \
 pipewire-pulseaudio \
