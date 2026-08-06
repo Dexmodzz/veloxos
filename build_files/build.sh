@@ -285,7 +285,6 @@ wpa_supplicant
 dnf5 -y install \
 xdg-desktop-portal-wlr \
 xdg-desktop-portal-gtk \
-xdg-desktop-portal-gnome \
 xdg-desktop-portal \
 pipewire \
 pipewire-pulseaudio \
@@ -335,6 +334,14 @@ gnome-connections \
 snapshot \
 papers \
 decibels
+
+# xdg-desktop-portal-gnome arriva già installato nell'immagine base come
+# *dipendenza* di gnome-shell (che lo richiede): installarlo esplicitamente
+# prima non basta a farlo considerare "richiesto dall'utente" da dnf5, quindi
+# quando gnome-shell viene rimosso qui sopra dnf5 lo elimina a cascata come
+# dipendenza orfana. Reinstallandolo qui, dopo la rimozione, dnf5 lo marca
+# come installato esplicitamente e non lo tocca più.
+dnf5 -y install xdg-desktop-portal-gnome
 
 # Remove waybar
 dnf -y remove waybar
